@@ -10,4 +10,4 @@ function install_modules(){
 }
 
 install_modules
-puppet apply --modulepath "modules/:$(puppet config print modulepath)" site.pp 
+puppet apply -dv --modulepath "modules/:$(puppet config print modulepath)" site.pp 
