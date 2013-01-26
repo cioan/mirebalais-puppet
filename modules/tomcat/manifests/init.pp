@@ -6,6 +6,7 @@ class tomcat {
 
   package { 'tomcat6':
     ensure => installed,
+    require => Package['oracle-java6-installer'],
   }
 
   user { 'tomcat6':
