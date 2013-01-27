@@ -1,4 +1,4 @@
-class jdk {
+class mirebalais::components::java {
   include apt
   
   apt::ppa { "ppa:webupd8team/java": }

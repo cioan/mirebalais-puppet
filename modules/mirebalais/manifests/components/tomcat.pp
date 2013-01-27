@@ -1,4 +1,4 @@
-class tomcat {
+class mirebalais::components::tomcat {
 
   $tomcat_port = 8080
   
