@@ -11,8 +11,16 @@ class mirebalais::components::tomcat {
 
   user { 'tomcat6':
     ensure => 'present',
-    home   => '/home/tomcat6',
+    home   => '/home/tomcat6/',
     shell  => '/bin/sh',
+  }
+
+  file { '/home/tomcat6':
+    ensure  => directory,
+    owner   => tomcat6,
+    group   => tomcat6,
+    mode    => 755,
+    require => User['tomcat6']
   }
 
   service { 'tomcat6':
