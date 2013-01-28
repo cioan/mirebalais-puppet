@@ -1,4 +1,5 @@
-
 node default {
-  include mirebalais
+
+  class { 'mirebalais' : }
+
 }
