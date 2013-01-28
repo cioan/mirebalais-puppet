@@ -19,6 +19,31 @@ class mirebalais(
 		source => "puppet:///modules/mirebalais/etc/environment" ,
   }  
 
+  file { '/home/tomcat6/.OpenMRS':
+    ensure  => directory,
+    owner   => tomcat6,
+    group   => tomcat6,
+    mode    => 755,
+    require => User['tomcat6']
+  }
+
+  file { '/home/tomcat6/.OpenMRS/mirebalais.properties' :
+		content => template("mirebalais/OpenMRS/mirebalais.properties.erb"),
+    ensure  => present,
+    owner   => tomcat6,
+    group   => tomcat6,
+    mode    => 644,
+    require => User['tomcat6']
+  } 
+  
+  file { '/home/tomcat6/.OpenMRS/mirebalais-runtime.properties' :
+		content => template("mirebalais/OpenMRS/mirebalais-runtime.properties.erb"),
+    ensure  => present,
+    owner   => tomcat6,
+    group   => tomcat6,
+    mode    => 644,
+    require => User['tomcat6']
+  }
 
 }
 
