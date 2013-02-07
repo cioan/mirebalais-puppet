@@ -2,7 +2,7 @@
 
 apt-get install -y puppet rubygems
 
-gem install puppet-module
+gem install --no-rdoc --no-ri puppet-module
 
 MODULES_FILE="PuppetModules"
 

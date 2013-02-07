@@ -56,7 +56,7 @@ class mirebalais::components::tomcat (
 
   user { $tomcat:
     ensure => 'present',
-    home   => "/home/${tomcat}/",
+    home   => "/home/${tomcat}",
     shell  => '/bin/sh',
   }
 
