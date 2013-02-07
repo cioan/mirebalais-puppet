@@ -16,35 +16,11 @@ class mirebalais(
     default_db_password => $mysql_default_db_password 
   }
 
+  include mirebalais::components::openmrs
+
   file { '/etc/environment':
     source => "puppet:///modules/mirebalais/etc/environment"
   }  
-
-  file { '/home/$tomcat/.OpenMRS':
-    ensure  => directory,
-    owner   => $tomcat,
-    group   => $tomcat,
-    mode    => 755,
-    require => User[$tomcat]
-  }
-
-  file { '/home/$tomcat/.OpenMRS/mirebalais.properties':
-    content => template("mirebalais/OpenMRS/mirebalais.properties.erb"),
-    ensure  => present,
-    owner   => $tomcat,
-    group   => $tomcat,
-    mode    => 644,
-    require => User[$tomcat]
-  } 
-  
-  file { '/home/$tomcat/.OpenMRS/mirebalais-runtime.properties':
-    content => template("mirebalais/OpenMRS/mirebalais-runtime.properties.erb"),
-    ensure  => present,
-    owner   => $tomcat,
-    group   => $tomcat,
-    mode    => 644,
-    require => User[$tomcat]
-  }
 
 }
 
