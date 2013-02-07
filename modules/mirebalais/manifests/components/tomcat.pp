@@ -1,22 +1,26 @@
 class mirebalais::components::tomcat (
     $tomcat = $mirebalais::tomcat,
-    $tomcat ? {
-      tomcat6 => {
-        $version = '6.0.36',
-        $source = 'http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.tar.gz',
-      },
-      tomcat7 => {
-        $version = '7.0.35',
-        $source = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.35/bin/apache-tomcat-7.0.35.tar.gz',
-      },
-    },
   ){
+
+  case $tomcat {
+    tomcat6: {
+      $version = '6.0.36'
+      $source = 'http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.tar.gz'
+    }
+    tomcat7: {
+      $version = '7.0.35'
+      $source = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.35/bin/apache-tomcat-7.0.35.tar.gz'
+    }
+  }
+
+  notice("installing tomcat version: ${version}")
 
   include wget
 
-  $tomcat_port = 8080
-
-  notice("Establishing http://${hostname}:${tomcat_port}/")
+  package { "tar":
+    ensure => installed,
+    provider => apt,
+  }
 
   wget::fetch { "download-tomcat":
     source      => $source,
@@ -27,17 +31,17 @@ class mirebalais::components::tomcat (
 
   exec {"tomcat-unzip":
     cwd     => "/usr/local",
-    command => "/usr/bin/unzip /tmp/tomcat.tgz",
-    unless  => "test -f /usr/local/${tomcat}",
-    require => [ Package["unzip"], Wget::Fetch["download-tomcat"] ],
+    command => "tar -xzf /tmp/tomcat.tgz",
+    require => [ Package["tar"], Wget::Fetch["download-tomcat"] ],
   }
 
-  file { "/usr/local/apache-tomcat-${version}":
+  file { "/usr/local/${tomcat}":
     ensure  => 'link',
-    target  => "/usr/local/${tomcat}",
+    target  => "/usr/local/apache-tomcat-${version}",
     owner   => $tomcat,
     group   => $tomcat,
     recurse => true,
+    require => Exec["tomcat-unzip"],
   }
 
   file { "/etc/init.d/${tomcat}":
@@ -66,7 +70,7 @@ class mirebalais::components::tomcat (
 
   service { $tomcat:
     ensure => running,
-    require => [ Exec['tomcat-unzip'], File["/usr/local/apache-tomcat-${version}"] ],
+    require => [ Exec['tomcat-unzip'], File["/usr/local/${tomcat}"] ],
   }   
 
 }
