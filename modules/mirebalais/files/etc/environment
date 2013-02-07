@@ -1,5 +1,2 @@
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 JAVA_HOME="/usr/lib/jvm/java-6-oracle"
-CATALINA_HOME="/usr/share/tomcat6"
-CATALINA_BASE="/var/lib/tomcat6"
-MIREBALAIS_CUSTOM_PROPERTIES_FILE="/home/tomcat6/.OpenMRS/mirebalais.properties"

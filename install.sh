@@ -1,5 +1,9 @@
 #! /bin/bash
 
+apt-get install -y puppet rubygems
+
+gem install puppet-module
+
 MODULES_FILE="PuppetModules"
 
 function install_modules(){
@@ -10,4 +14,4 @@ function install_modules(){
 }
 
 install_modules
-puppet apply -v --modulepath "modules/:$(puppet config print modulepath)" site.pp 
+puppet apply -v --modulepath "modules/:./:$(puppet config print modulepath)" site.pp 

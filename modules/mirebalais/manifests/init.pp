@@ -3,6 +3,7 @@ class mirebalais(
     $mysql_default_db = 'openmrs',
     $mysql_default_db_user = 'openmrs',
     $mysql_default_db_password = 'foo'
+    $tomcat = 'tomcat6'
   ){
 
   include mirebalais::components::java
@@ -19,30 +20,30 @@ class mirebalais(
     source => "puppet:///modules/mirebalais/etc/environment"
   }  
 
-  file { '/home/tomcat6/.OpenMRS':
+  file { '/home/$tomcat/.OpenMRS':
     ensure  => directory,
-    owner   => tomcat6,
-    group   => tomcat6,
+    owner   => $tomcat,
+    group   => $tomcat,
     mode    => 755,
-    require => User['tomcat6']
+    require => User[$tomcat]
   }
 
-  file { '/home/tomcat6/.OpenMRS/mirebalais.properties':
+  file { '/home/$tomcat/.OpenMRS/mirebalais.properties':
     content => template("mirebalais/OpenMRS/mirebalais.properties.erb"),
     ensure  => present,
-    owner   => tomcat6,
-    group   => tomcat6,
+    owner   => $tomcat,
+    group   => $tomcat,
     mode    => 644,
-    require => User['tomcat6']
+    require => User[$tomcat]
   } 
   
-  file { '/home/tomcat6/.OpenMRS/mirebalais-runtime.properties':
+  file { '/home/$tomcat/.OpenMRS/mirebalais-runtime.properties':
     content => template("mirebalais/OpenMRS/mirebalais-runtime.properties.erb"),
     ensure  => present,
-    owner   => tomcat6,
-    group   => tomcat6,
+    owner   => $tomcat,
+    group   => $tomcat,
     mode    => 644,
-    require => User['tomcat6']
+    require => User[$tomcat]
   }
 
 }
