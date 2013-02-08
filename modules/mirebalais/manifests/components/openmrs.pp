@@ -63,7 +63,7 @@ class mirebalais::components::openmrs (
     require => Exec['migrate update to latest'],
   }   
 
-  file { '/home/$tomcat/.OpenMRS':
+  file { "/home/${tomcat}/.OpenMRS":
     ensure  => directory,
     owner   => $tomcat,
     group   => $tomcat,
@@ -71,22 +71,22 @@ class mirebalais::components::openmrs (
     require => User[$tomcat]
   }
 
-  file { '/home/$tomcat/.OpenMRS/mirebalais.properties':
+  file { "/home/${tomcat}/.OpenMRS/mirebalais.properties":
     content => template("mirebalais/OpenMRS/mirebalais.properties.erb"),
     ensure  => present,
     owner   => $tomcat,
     group   => $tomcat,
     mode    => 644,
-    require => User[$tomcat]
+    require => File["/home/$tomcat/.OpenMRS"]
   } 
   
-  file { '/home/$tomcat/.OpenMRS/mirebalais-runtime.properties':
+  file { "/home/${tomcat}/.OpenMRS/mirebalais-runtime.properties":
     content => template("mirebalais/OpenMRS/mirebalais-runtime.properties.erb"),
     ensure  => present,
     owner   => $tomcat,
     group   => $tomcat,
     mode    => 644,
-    require => User[$tomcat]
+    require => File["/home/$tomcat/.OpenMRS"]
   }
 
 }
