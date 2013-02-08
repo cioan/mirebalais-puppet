@@ -23,22 +23,26 @@ class mirebalais::components::openmrs (
     require => Package['mirebalais'],
   }   
 
+  file { '/tmp/liquibase.jar':
+    source => "puppet:///modules/mirebalais/liquibase.jar"
+  }
+
   exec { 'migrate base schema':
-    cwd     =>  './mirebalais/files',
+    cwd     =>  '/tmp/',
     command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-schema-only.xml --username=${default_db_user} --password=${default_db_password} update",
     user    => 'root',
     require => Exec['tomcat-stop'],
   }
 
   exec { 'migrate core data':
-    cwd     =>  './mirebalais/files',
+    cwd     =>  '/tmp/',
     command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-core-data.xml --username=${default_db_user} --password=${default_db_password} update",
     user    => 'root',
     require => Exec['migrate base schema'],
   }
 
   exec { 'migrate update to latest':
-    cwd     =>  './mirebalais/files',
+    cwd     =>  '/tmp/',
     command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-update-to-latest.xml --username=${default_db_user} --password=${default_db_password} update",
     user    => 'root',
     require => Exec['migrate core data'],
