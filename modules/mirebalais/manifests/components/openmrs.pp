@@ -6,15 +6,24 @@ class mirebalais::components::openmrs (
   ){
 
   include apt
+
+  file { "/etc/apt/apt.conf.d/99auth":
+    owner     => root,
+    group     => root,
+    content   => "APT::Get::AllowUnauthenticated yes;",
+    mode      => 644;
+  }
   
   apt::source { 'mirebalais':
-    location   => 'http://bamboo.pih-emr.org/mirebalais-repo',
-    release      => 'unstable/',
+    location    => 'http://bamboo.pih-emr.org/mirebalais-repo',
+    release     => 'unstable/',
+    repos       => '',
+    include_src => false,
   }
 
   package { "mirebalais": 
     ensure => installed,
-    require => Apt::Source['mirebalais'],
+    require => [ Apt::Source['mirebalais'], File['/etc/apt/apt.conf.d/99auth'] ],
   }
 
   exec { "tomcat-stop":
