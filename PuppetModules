@@ -1,4 +1,4 @@
 puppetlabs/apt
 puppetlabs/mysql
-stdlib
+puppetlabs/stdlib
 maestrodev/wget
