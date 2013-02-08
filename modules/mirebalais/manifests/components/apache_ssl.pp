@@ -1,4 +1,6 @@
-class mirebalais::components::apache_ssl {
+class mirebalais::components::apache_ssl (
+    $tomcat = $mirebalais::tomcat,
+  ){
   
   package { "apache2": 
     ensure => installed,
@@ -8,10 +10,53 @@ class mirebalais::components::apache_ssl {
     ensure => installed,
   }
 
-  exec {'skipping license approval':
-    command => "/bin/echo  'oracle-java6-installer shared/accepted-oracle-license-v1-1 boolean true' | /usr/bin/debconf-set-selections",
+  file { '/etc/apache2/workers.properties':
+    ensure => present,
+    content => template("mirebalais/apache2/workers.properties.erb"),
+    source => "puppet:///modules/mirebalais/apache2/workers.properties"
+  } ~>
+
+  file { '/etc/apache2/mods-available/jk.conf':
+    ensure => present,
+    source => "puppet:///modules/mirebalais/apache2/jk.conf"
+  } ~>
+
+  file { '/etc/apache2/sites-available/default-ssl':
+    ensure => file,
+    source => "puppet:///modules/mirebalais/apache2/sites-available/default-ssl"
+  } ~>
+
+  file { '/etc/apache2/sites-available/default':
+    ensure => file,
+    source => "puppet:///modules/mirebalais/apache2/sites-available/default"
+  } ~>
+  
+  file { '/etc/ssl/certs/_.pih-emr.org.crt':
+    ensure => present,
+    source => "puppet:///modules/mirebalais/etc/ssl/certs/_.pih-emr.org.crt"
+  } ~>
+
+  file { '/etc/ssl/certs/gd_bundle.crt':
+    ensure => present,
+    source => "puppet:///modules/mirebalais/etc/ssl/certs/gd_bundle.crt"
+  } ~>
+
+  exec { 'enable apache mods':
+    cmd     => 'a2enmod jk && a2enmod deflate && a2enmod ssl && a2ensite ssl && a2enmod rewrite',
     user    => 'root',
-    require => Apt::Ppa['ppa:webupd8team/java'],
+    require => [ Service[$tomcat], Package['apache2'], Package['libapache-mod-jk'] ],
   }
+
+  exec { 'restart apache':
+    cmd     => 'service apache2 restart',
+    user    => 'root',
+    require => [ Service['apache2'], Exec['enable apache mods'] ],
+  }
+
+  service { 'apache2':
+    ensure   => running,
+    enable   => true,
+    require  => [ Package['apache2'], Package['libapache-mod-jk'] ],
+  } ->
 
 }

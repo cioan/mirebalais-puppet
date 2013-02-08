@@ -35,6 +35,7 @@ class mirebalais::components::openmrs (
   }   
 
   file { '/tmp/liquibase.jar':
+    ensure => present,
     source => "puppet:///modules/mirebalais/liquibase.jar"
   }
 

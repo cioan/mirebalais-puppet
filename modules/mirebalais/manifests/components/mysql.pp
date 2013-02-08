@@ -32,7 +32,6 @@ class mirebalais::components::mysql (
     name     => 'mysql',
     enable   => true,
     require  => [File['/etc/mysql/my.cnf'], Package['mysql-server']],
-    provider => upstart,
   } ->
 
   database { $default_db :
