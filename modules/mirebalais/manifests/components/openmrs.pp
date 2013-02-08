@@ -8,6 +8,7 @@ class mirebalais::components::openmrs (
   include apt
 
   file { "/etc/apt/apt.conf.d/99auth":
+    ensure    => present,
     owner     => root,
     group     => root,
     content   => "APT::Get::AllowUnauthenticated yes;",
@@ -15,6 +16,7 @@ class mirebalais::components::openmrs (
   }
   
   apt::source { 'mirebalais':
+    ensure      => present
     location    => 'http://bamboo.pih-emr.org/mirebalais-repo',
     release     => 'unstable/',
     repos       => '',

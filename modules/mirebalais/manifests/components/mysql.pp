@@ -16,6 +16,12 @@ class mirebalais::components::mysql (
     },
   } ->
 
+  class { 'mysql::backup':
+    backupuser     => $default_db_user,
+    backuppassword => $default_db_password,
+    backupdir      => '/tmp/backups',
+  }
+
   file { '/etc/mysql/my.cnf':
     source  => 'puppet:///modules/mirebalais/mysql/my.cnf',
     ensure  => file,
@@ -32,6 +38,7 @@ class mirebalais::components::mysql (
   database { $default_db :
     require => Service['mysqld'],
     ensure  => present,
+    charset => 'utf8',
   } ->
 
   database_user { "${default_db_user}@localhost":

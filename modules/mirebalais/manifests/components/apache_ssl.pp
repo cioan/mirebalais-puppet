@@ -1,12 +1,11 @@
-class mirebalais::components::java {
-  include apt
+class mirebalais::components::apache_ssl {
   
-  apt::ppa { "ppa:webupd8team/java": }
-
-  package { "oracle-java6-installer": 
+  package { "apache2": 
     ensure => installed,
-    require => [Apt::Ppa['ppa:webupd8team/java'],
-                Exec['skipping license approval']]
+  }
+
+  package { "libapache2-mod-jk": 
+    ensure => installed,
   }
 
   exec {'skipping license approval':

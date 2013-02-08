@@ -19,7 +19,6 @@ class mirebalais::components::tomcat (
 
   package { "tar":
     ensure => installed,
-    provider => apt,
   }
 
   wget::fetch { "download-tomcat":
@@ -41,7 +40,7 @@ class mirebalais::components::tomcat (
     group   => $tomcat,
     recurse => true, 
     require => Exec["tomcat-unzip"],
-  } 
+  } ~> 
 
   file { "/usr/local/${tomcat}":
     ensure  => 'link',
@@ -49,7 +48,7 @@ class mirebalais::components::tomcat (
     owner   => $tomcat,
     group   => $tomcat,
     require => Exec["tomcat-unzip"],
-  }
+  } ~>
 
   file { "/etc/init.d/${tomcat}":
     source  => "puppet:///modules/mirebalais/${tomcat}/init",
@@ -58,6 +57,11 @@ class mirebalais::components::tomcat (
 
   file { "/etc/default/${tomcat}":
     source  => "puppet:///modules/mirebalais/${tomcat}/default",
+    ensure  => file,
+  } ~>
+
+  file { "/etc/logrotate.d/${tomcat}":
+    source  => "puppet:///modules/mirebalais/${tomcat}/logrotate",
     ensure  => file,
   } ~>
 
@@ -73,7 +77,7 @@ class mirebalais::components::tomcat (
     group   => $tomcat,
     mode    => 755,
     require => User[$tomcat]
-  }
+  } ~>
 
   service { $tomcat:
     enable => true,

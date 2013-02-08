@@ -1,0 +1,20 @@
+/usr/local/tomcat6/logs/catalina.out  {
+  daily
+  rotate 7
+  size 10M
+  copytruncate
+  compress
+  postrotate
+    # reset ownership to comply with directory's permissions
+    chown tomcat6.tomcat6 /usr/local/tomcat6/logs/catalina.out.*
+  endscript
+  notifempty
+  missingok
+}
+
+/usr/local/tomcat6/logs/*.log {
+  daily
+  rotate 7
+  missingok
+}
+
