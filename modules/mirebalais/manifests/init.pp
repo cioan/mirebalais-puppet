@@ -18,6 +18,8 @@ class mirebalais(
 
   include mirebalais::components::openmrs
 
+  include mirebalais::components::apache_ssl
+
   file { '/etc/environment':
     source => "puppet:///modules/mirebalais/etc/environment"
   }  
