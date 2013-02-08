@@ -2,8 +2,8 @@ class mirebalais(
     $mysql_root_password = 'foo',
     $mysql_default_db = 'openmrs',
     $mysql_default_db_user = 'openmrs',
-    $mysql_default_db_password = 'foo'
-    $tomcat = 'tomcat6'
+    $mysql_default_db_password = 'foo',
+    $tomcat = 'tomcat6',
   ){
 
   include mirebalais::components::java

@@ -1,4 +1,4 @@
-class mirebalais::components::java (
+class mirebalais::components::openmrs (
     $default_db = $mirebalais::mysql_default_db,
     $default_db_user = $mirebalais::mysql_default_db_user,
     $default_db_password = $mirebalais::mysql_default_db_password,
@@ -17,36 +17,36 @@ class mirebalais::components::java (
     require => Apt::Source['mirebalais'],
   }
 
-  service { "tomcat-stop":
-    name => $tomcat,
-    ensure => stopped,
+  exec { "tomcat-stop":
+    command => "service ${tomcat} stop",
+    user    => 'root',
     require => Package['mirebalais'],
   }   
 
   exec { 'migrate base schema':
-    cwd     =>  'mirebalais/files',
+    cwd     =>  './mirebalais/files',
     command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-schema-only.xml --username=${default_db_user} --password=${default_db_password} update",
     user    => 'root',
-    require => Service['tomcat-stop'],
+    require => Exec['tomcat-stop'],
   }
 
   exec { 'migrate core data':
-    cwd     =>  'mirebalais/files',
+    cwd     =>  './mirebalais/files',
     command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-core-data.xml --username=${default_db_user} --password=${default_db_password} update",
     user    => 'root',
     require => Exec['migrate base schema'],
   }
 
   exec { 'migrate update to latest':
-    cwd     =>  'mirebalais/files',
+    cwd     =>  './mirebalais/files',
     command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-update-to-latest.xml --username=${default_db_user} --password=${default_db_password} update",
     user    => 'root',
     require => Exec['migrate core data'],
   }
 
-  service { "tomcat-start":
-    name => $tomcat,
-    ensure => started,
+  exec { "tomcat-start":
+    command => "service ${tomcat} stop",
+    user    => 'root',
     require => Exec['migrate update to latest'],
   }   
 
