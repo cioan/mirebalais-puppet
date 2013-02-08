@@ -27,7 +27,7 @@ class mirebalais::components::openmrs (
   }
 
   exec { "tomcat-stop":
-    command => "service ${tomcat} stop",
+    command => "/etc/init.d/${tomcat} stop",
     user    => 'root',
     require => Package['mirebalais'],
   }   
@@ -58,7 +58,7 @@ class mirebalais::components::openmrs (
   }
 
   exec { "tomcat-start":
-    command => "service ${tomcat} stop",
+    command => "/etc/init.d/${tomcat} start",
     user    => 'root',
     require => Exec['migrate update to latest'],
   }   
