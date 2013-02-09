@@ -32,6 +32,7 @@ class mirebalais::components::tomcat (
     cwd     => "/usr/local",
     command => "tar -xzf /tmp/tomcat.tgz",
     require => [ Package["tar"], Wget::Fetch["download-tomcat"] ],
+    unless  => "test -d /usr/local/apache-tomcat-${version}"
   }
 
   file { "/usr/local/apache-tomcat-${version}": 
@@ -47,6 +48,7 @@ class mirebalais::components::tomcat (
     target  => "/usr/local/apache-tomcat-${version}",
     owner   => $tomcat,
     group   => $tomcat,
+    unless  => "test -h /usr/local/${tomcat}"
     require => Exec["tomcat-unzip"],
   }
 
