@@ -48,22 +48,22 @@ class mirebalais::components::tomcat (
     owner   => $tomcat,
     group   => $tomcat,
     require => Exec["tomcat-unzip"],
-  } ~>
+  }
 
   file { "/etc/init.d/${tomcat}":
     source  => "puppet:///modules/mirebalais/${tomcat}/init",
     ensure  => file,
-  } ~>
+  }
 
   file { "/etc/default/${tomcat}":
     source  => "puppet:///modules/mirebalais/${tomcat}/default",
     ensure  => file,
-  } ~>
+  }
 
   file { "/etc/logrotate.d/${tomcat}":
     source  => "puppet:///modules/mirebalais/${tomcat}/logrotate",
     ensure  => file,
-  } ~>
+  }
 
   user { $tomcat:
     ensure => 'present',
@@ -77,7 +77,7 @@ class mirebalais::components::tomcat (
     group   => $tomcat,
     mode    => 755,
     require => User[$tomcat]
-  } ~>
+  }
 
   service { $tomcat:
     enable => true,
