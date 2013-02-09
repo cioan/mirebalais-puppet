@@ -17,8 +17,8 @@ class mirebalais::components::mysql (
   } ->
 
   class { 'mysql::backup':
-    backupuser     => $default_db_user,
-    backuppassword => $default_db_password,
+    backupuser     => 'backup',
+    backuppassword => 'backup',
     backupdir      => '/tmp/backups',
   }
 
