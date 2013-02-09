@@ -4,8 +4,8 @@
   DocumentRoot /var/www/
 
   RewriteEngine   on
-  RewriteCond     %{SERVER_PORT}^80$
-  RewriteRule     ^(.*)$ https://%{SERVER_NAME}$1 [L,R]
+  RewriteCond %{HTTPS} off
+  RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 
 	DocumentRoot /var/www
 
