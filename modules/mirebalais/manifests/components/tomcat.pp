@@ -48,7 +48,6 @@ class mirebalais::components::tomcat (
     target  => "/usr/local/apache-tomcat-${version}",
     owner   => $tomcat,
     group   => $tomcat,
-    unless  => "test -h /usr/local/${tomcat}",
     require => Exec["tomcat-unzip"],
   }
 
