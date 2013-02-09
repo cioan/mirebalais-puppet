@@ -42,7 +42,7 @@ class mirebalais::components::apache_ssl (
   } ~>
 
   exec { 'enable apache mods':
-    cmd     => 'a2enmod jk && a2enmod deflate && a2enmod ssl && a2ensite ssl && a2enmod rewrite',
+    cmd     => 'a2enmod jk; a2enmod deflate; a2enmod ssl; a2ensite ssl; a2enmod rewrite',
     user    => 'root',
     require => [ Service[$tomcat], Package['apache2'], Package['libapache-mod-jk'] ],
   }
