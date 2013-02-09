@@ -13,7 +13,6 @@ class mirebalais::components::apache_ssl (
   file { '/etc/apache2/workers.properties':
     ensure => present,
     content => template("mirebalais/apache2/workers.properties.erb"),
-    source => "puppet:///modules/mirebalais/apache2/workers.properties"
   } ~>
 
   file { '/etc/apache2/mods-available/jk.conf':
