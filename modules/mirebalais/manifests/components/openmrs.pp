@@ -16,7 +16,7 @@ class mirebalais::components::openmrs (
   }
   
   apt::source { 'mirebalais':
-    ensure      => present
+    ensure      => present,
     location    => 'http://bamboo.pih-emr.org/mirebalais-repo',
     release     => 'unstable/',
     repos       => '',
