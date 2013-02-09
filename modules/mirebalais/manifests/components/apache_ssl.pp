@@ -55,7 +55,7 @@ class mirebalais::components::apache_ssl (
   service { 'apache2':
     ensure   => running,
     enable   => true,
-    require  => [ Package['apache2'], Package['libapache-mod-jk'] ],
+    require  => [ Package['apache2'], Package['libapache2-mod-jk'] ],
   }
 
 }
