@@ -80,7 +80,7 @@ class mirebalais::components::openmrs (
     owner   => $tomcat,
     group   => $tomcat,
     mode    => 644,
-    require => File["/home/$tomcat/.OpenMRS"]
+    require => File["/home/${tomcat}/.OpenMRS"]
   } 
   
   file { "/home/${tomcat}/.OpenMRS/mirebalais-runtime.properties":
@@ -89,7 +89,7 @@ class mirebalais::components::openmrs (
     owner   => $tomcat,
     group   => $tomcat,
     mode    => 644,
-    require => File["/home/$tomcat/.OpenMRS"]
+    require => File["/home/${tomcat}/.OpenMRS"]
   }
 
 }
