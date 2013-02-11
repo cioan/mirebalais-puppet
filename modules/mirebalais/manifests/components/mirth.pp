@@ -82,7 +82,7 @@ class mirebalais::components::mirth (
   service { 'mcservice':
     ensure   => running,
     enable   => true,
-    require  => File['/etc/init.d/mcservice']
+    require  => [ File['/etc/init.d/mcservice'], File['/usr/local/mirthconnect/conf/mirth.properties'], File["/usr/local/mirthconnect/appdata"], Database[$mirth_db] ]
   }
 
 }

@@ -3,6 +3,10 @@
 
   DocumentRoot /var/www/
 
+  JkMount /mirebalais mirebalais
+  JkMount /mirebalais/ mirebalais
+  JkMount /mirebalais/* mirebalais
+
 	<Directory />
 		Options FollowSymLinks
 		AllowOverride None
