@@ -30,18 +30,10 @@ class mirebalais::components::tomcat (
 
   exec { "tomcat-unzip":
     cwd     => "/usr/local",
-    command => "tar -xzf /tmp/tomcat.tgz",
+    command => "tar --group=${tomcat} --owner=${tomcat} -xzf /tmp/tomcat.tgz",
     unless  => "test -d /usr/local/apache-tomcat-${version}",
     require => [ Package["tar"], Wget::Fetch["download-tomcat"] ],
-  }
-
-  file { "/usr/local/apache-tomcat-${version}": 
-    ensure  => directory, 
-    owner   => $tomcat,
-    group   => $tomcat,
-    recurse => true, 
-    require => Exec["tomcat-unzip"],
-  } ~> 
+  } ~>
 
   file { "/usr/local/${tomcat}":
     ensure  => 'link',

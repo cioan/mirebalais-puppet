@@ -8,6 +8,9 @@ class mirebalais(
 
   include mirebalais::components::java
   include mirebalais::components::tomcat
+  include mirebalais::components::openmrs
+  include mirebalais::components::apache_ssl
+  include mirebalais::components::mirth
 
   class { 'mirebalais::components::mysql':
     root_password => $mysql_root_password,
@@ -15,10 +18,6 @@ class mirebalais(
     default_db_user => $mysql_default_db_user,
     default_db_password => $mysql_default_db_password 
   }
-
-  include mirebalais::components::openmrs
-
-  include mirebalais::components::apache_ssl
 
   file { '/etc/environment':
     source => "puppet:///modules/mirebalais/etc/environment"
