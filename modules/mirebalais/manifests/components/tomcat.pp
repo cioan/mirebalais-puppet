@@ -32,7 +32,7 @@ class mirebalais::components::tomcat (
     cwd     => "/usr/local",
     command => "tar --group=${tomcat} --owner=${tomcat} -xzf /tmp/tomcat.tgz",
     unless  => "test -d /usr/local/apache-tomcat-${version}",
-    require => [ Package["tar"], Wget::Fetch["download-tomcat"] ],
+    require => [ Package["tar"], Wget::Fetch["download-tomcat"], User[$tomcat] ],
   } ~>
 
   file { "/usr/local/${tomcat}":
