@@ -58,8 +58,6 @@ class mirebalais::components::mirth (
 
   file {"/usr/local/mirthconnect/logs": 
     ensure  => directory,
-    owner   => $tomcat,
-    group   => $tomcat,
     require => Exec['mirth-unzip']
   }
 
