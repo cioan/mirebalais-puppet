@@ -4,9 +4,8 @@ class mirebalais::components::mirth (
     $mirth_db_user = $mirebalais::mysql_mirth_db_user,
     $mirth_db_password = $mirebalais::mysql_mirth_db_password,
     $default_db = $mirebalais::mysql_default_db,
+    $tomcat = $mirebalais::tomcat
   ){
-
-  include mysql
 
   database { $mirth_db :
     require => Service['mysqld'],
@@ -34,7 +33,6 @@ class mirebalais::components::mirth (
     privileges => ['all'],
     require => [ Service['mysqld'], Database[$default_db] ]
   }
-
 
   file {"/usr/local/mirthconnect":
     ensure => directory,
@@ -66,6 +64,7 @@ class mirebalais::components::mirth (
   file {"/usr/local/mirthconnect/appdata": 
     source  => "puppet:///modules/mirebalais/mirth/appdata",
     recurse => true,
+    require => Exec['mirth-unzip']
   }
 
   file { '/usr/local/mirthconnect/conf/mirth.properties':
@@ -76,7 +75,8 @@ class mirebalais::components::mirth (
 
   file { '/etc/init.d/mcservice':
     ensure => link,
-    targer => '/usr/local/mirthconnect/mcservice'
+    target => '/usr/local/mirthconnect/mcservice',
+    require => Exec['mirth-unzip']
   }
 
   service { 'mcservice':
