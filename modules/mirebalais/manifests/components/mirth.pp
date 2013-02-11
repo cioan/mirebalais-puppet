@@ -88,7 +88,7 @@ class mirebalais::components::mirth (
   exec { 'create mirth user':
     cwd      => '/usr/local/mirthconnect',
     command  => "echo 'user add ${mirth_user} ${mirth_password} mirth user PIH mogoodrich@pih.org' | mccommand",
-    requires => Service['mcservice']
+    require => Service['mcservice']
   }
 
 }
