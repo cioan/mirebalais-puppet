@@ -3,6 +3,8 @@ class mirebalais::components::mirth (
     $mirth_db = $mirebalais::mysql_mirth_db,
     $mirth_db_user = $mirebalais::mysql_mirth_db_user,
     $mirth_db_password = $mirebalais::mysql_mirth_db_password,
+    $mirth_user = $mirebalais::mirth_user,
+    $mirth_password = $mirebalais::mirth_password,
     $default_db = $mirebalais::mysql_default_db,
     $tomcat = $mirebalais::tomcat
   ){
@@ -83,6 +85,12 @@ class mirebalais::components::mirth (
     ensure   => running,
     enable   => true,
     require  => [ File['/etc/init.d/mcservice'], File['/usr/local/mirthconnect/conf/mirth.properties'], File["/usr/local/mirthconnect/appdata"], Database[$mirth_db] ]
+  }
+
+  exec { 'create mirth user':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'user add ${mirth_user} ${mirth_password} mirth user PIH mogoodrich@pih.org' | mccommand",
+    requires => Service['mcservice']
   }
 
 }

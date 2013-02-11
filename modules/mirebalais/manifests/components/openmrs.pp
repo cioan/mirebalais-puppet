@@ -63,7 +63,7 @@ class mirebalais::components::openmrs (
   exec { "tomcat-start":
     command => "service ${tomcat} start",
     user    => 'root',
-    require => [ Exec['migrate update to latest'], Service['mcservice'] ]
+    require => [ Exec['migrate update to latest'], Service['mcservice'], Exec['create mirth user'] ]
   }   
 
   file { "/home/${tomcat}/.OpenMRS":

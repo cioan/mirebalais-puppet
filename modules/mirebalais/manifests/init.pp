@@ -7,6 +7,8 @@ class mirebalais(
     $mysql_mirth_db = 'mirthdb',
     $mysql_mirth_db_user = 'mirth',
     $mysql_mirth_db_password = 'foo',
+    $mirth_user = 'mirth',
+    $mirth_password = 'Mirth123',
   ){
 
   include mirebalais::components::java
