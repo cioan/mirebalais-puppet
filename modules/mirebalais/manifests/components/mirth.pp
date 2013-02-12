@@ -117,16 +117,16 @@ class mirebalais::components::mirth (
     require => [ Service['mcservice'], Exec['stop all channels'], File['/tmp/readHL7FromOpenmrsDatabaseChannel.xml'] ]
   }
 
-  exec { 'import write channel':
-    cwd      => '/usr/local/mirthconnect',
-    command  => "echo 'import /tmp/sendHL7ToPacsChannel.xml force' | /usr/local/mirthconnect/mccommand",
-    require => [ Service['mcservice'], Exec['stop all channels'], File['/tmp/sendHL7ToPacsChannel.xml'] ]
-  }
-
   exec { 'deploy read channel':
     cwd      => '/usr/local/mirthconnect',
     command  => "echo 'channel deploy \"Read HL7 From OpenMRS Database\"' | /usr/local/mirthconnect/mccommand",
     require => [ Service['mcservice'], Exec['import read channel'] ]
+  }
+
+  exec { 'import write channel':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'import /tmp/sendHL7ToPacsChannel.xml force' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['deploy read channel'], File['/tmp/sendHL7ToPacsChannel.xml'] ]
   }
 
   exec { 'deploy write channel':
