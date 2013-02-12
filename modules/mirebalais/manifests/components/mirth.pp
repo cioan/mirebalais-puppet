@@ -6,10 +6,11 @@ class mirebalais::components::mirth (
     $mirth_user = $mirebalais::mirth_user,
     $mirth_password = $mirebalais::mirth_password,
     $default_db = $mirebalais::mysql_default_db,
+    $default_db_user = $mirebalais::mysql_default_db_user,
+    $default_db_password = $mirebalais::mysql_default_db_password,
     $tomcat = $mirebalais::tomcat,
     $pacs_ip_address = $mirebalais::pacs_ip_address,
     $pacs_destination_port = $mirebalais::pacs_destination_port
-
   ){
 
   database { $mirth_db :

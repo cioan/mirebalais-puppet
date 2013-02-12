@@ -13,13 +13,13 @@
     <name>sourceConnector</name>
     <properties>
       <property name="DataType">Database Reader</property>
-      <property name="URL">jdbc:mysql://localhost:3306/<%= @mirth_db %>?autoReconnect=true&amp;sessionVariables=storage_engine=InnoDB&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
+      <property name="URL">jdbc:mysql://localhost:3306/<%= @default_db %>?autoReconnect=true&amp;sessionVariables=storage_engine=InnoDB&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
       <property name="ack">UPDATE pacsintegration_outbound_queue SET processed=1
 			WHERE outbound_queue_id=${outbound_queue_id};</property>
       <property name="ackScript"></property>
       <property name="driver">com.mysql.jdbc.Driver</property>
       <property name="host">query</property>
-      <property name="password"><%= @mirth_db_password %></property>
+      <property name="password"><%= @default_db_password %></property>
       <property name="pollingFrequency">5000</property>
       <property name="pollingType">interval</property>
       <property name="processResultsInOrder">1</property>
@@ -30,7 +30,7 @@
       <property name="script"></property>
       <property name="useAck">1</property>
       <property name="useScript">0</property>
-      <property name="username"><%= @mirth_db_user %></property>
+      <property name="username"><%= @default_db_user %></property>
     </properties>
     <transformer>
       <steps>
