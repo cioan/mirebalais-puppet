@@ -1,6 +1,6 @@
 <channel>
-    <id>bf7004f7-a46f-453d-bc1a-e910dccfe8a3</id>
-    <name>Send HL7 to PACS</name>
+    <id>0e899b80-7557-11e2-bcfd-0800200c9a66</id>
+    <name>Send HL7 to PACS Boston</name>
     <description></description>
     <enabled>true</enabled>
     <version>2.2.1.5861</version>
@@ -55,12 +55,12 @@
                 <property name="bufferSize">65536</property>
                 <property name="charEncoding">hex</property>
                 <property name="charsetEncoding">windows-1252</property>
-                <property name="host"><%= @pacs_ip_address %></property>
+                <property name="host"><%= @pacs_boston_ip_address %></property>
                 <property name="keepSendSocketOpen">1</property>
                 <property name="maxRetryCount">99</property>
                 <property name="messageEnd">0x1C</property>
                 <property name="messageStart">0x0B</property>
-                <property name="port"><%= @pacs_destination_port %></property>
+                <property name="port"><%= @pacs_boston_destination_port %></property>
                 <property name="processHl7AckResponse">1</property>
                 <property name="queueAckTimeout">1</property>
                 <property name="queuePollInterval">200</property>

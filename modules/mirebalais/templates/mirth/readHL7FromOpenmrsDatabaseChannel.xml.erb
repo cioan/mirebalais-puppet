@@ -108,6 +108,33 @@ ICAgPG1lc3NhZ2U+dmFsdWU8L21lc3NhZ2U+CjwvcmVzdWx0Pgo=</inboundTemplate>
       <enabled>true</enabled>
       <version>2.2.1.5861</version>
     </connector>
+    <connector>
+      <name>Destination 2</name>
+      <properties>
+        <property name="DataType">Channel Writer</property>
+        <property name="host">0e899b80-7557-11e2-bcfd-0800200c9a66</property>
+        <property name="synchronised">0</property>
+        <property name="template">${message.encodedData}</property>
+      </properties>
+      <transformer>
+        <steps/>
+        <inboundProtocol>XML</inboundProtocol>
+        <outboundProtocol>XML</outboundProtocol>
+        <inboundProperties>
+          <property name="stripNamespaces">true</property>
+        </inboundProperties>
+        <outboundProperties>
+          <property name="stripNamespaces">true</property>
+        </outboundProperties>
+      </transformer>
+      <filter>
+        <rules/>
+      </filter>
+      <transportName>Channel Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <version>2.2.1.5861</version>
+    </connector>
   </destinationConnectors>
   <properties>
     <property name="clearGlobalChannelMap">true</property>

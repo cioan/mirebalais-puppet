@@ -9,8 +9,10 @@ class mirebalais::components::mirth (
     $default_db_user = $mirebalais::mysql_default_db_user,
     $default_db_password = $mirebalais::mysql_default_db_password,
     $tomcat = $mirebalais::tomcat,
-    $pacs_ip_address = $mirebalais::pacs_ip_address,
-    $pacs_destination_port = $mirebalais::pacs_destination_port
+    $pacs_mirebalais_ip_address = $mirebalais::pacs_mirebalais_ip_address,
+    $pacs_mirebalais_destination_port = $mirebalais::pacs_mirebalais_destination_port
+    $pacs_boston_ip_address = $mirebalais::pacs_boston_ip_address,
+    $pacs_boston_destination_port = $mirebalais::pacs_boston_destination_port
   ){
 
   database { $mirth_db :
@@ -106,9 +108,14 @@ class mirebalais::components::mirth (
     content => template("mirebalais/mirth/readHL7FromOpenmrsDatabaseChannel.xml.erb"),
   }
 
-  file { '/tmp/sendHL7ToPacsChannel.xml':
+  file { '/tmp/sendHL7ToPacsChannelMirebalais.xml':
     ensure  => present,
-    content => template("mirebalais/mirth/sendHL7ToPacsChannel.xml.erb"),
+    content => template("mirebalais/mirth/sendHL7ToPacsChannelMirebalais.xml.erb"),
+  }
+
+  file { '/tmp/sendHL7ToPacsChannelBoston.xml':
+    ensure  => present,
+    content => template("mirebalais/mirth/sendHL7ToPacsChannelBoston.xml.erb"),
   }
 
   exec { 'import read channel':
@@ -123,22 +130,34 @@ class mirebalais::components::mirth (
     require => [ Service['mcservice'], Exec['import read channel'] ]
   }
 
-  exec { 'import write channel':
+  exec { 'import write channel 1':
     cwd      => '/usr/local/mirthconnect',
-    command  => "echo 'import /tmp/sendHL7ToPacsChannel.xml force' | /usr/local/mirthconnect/mccommand",
-    require => [ Service['mcservice'], Exec['deploy read channel'], File['/tmp/sendHL7ToPacsChannel.xml'] ]
+    command  => "echo 'import /tmp/sendHL7ToPacsChannelMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['deploy read channel'], File['/tmp/sendHL7ToPacsChannelMirebalais.xml'] ]
   }
 
-  exec { 'deploy write channel':
+  exec { 'deploy write channel 1':
     cwd      => '/usr/local/mirthconnect',
-    command  => "echo 'channel deploy \"Send HL7 To Pacs\"' | /usr/local/mirthconnect/mccommand",
-    require => [ Service['mcservice'], Exec['import write channel'] ]
+    command  => "echo 'channel deploy \"Send HL7 To Pacs Mirebalais\"' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['import write channel 1'] ]
+  }
+
+  exec { 'import write channel 2':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'import /tmp/sendHL7ToPacsChannelBoston.xml force' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['deploy write channel 1'], File['/tmp/sendHL7ToPacsChannelBoston.xml'] ]
+  }
+
+  exec { 'deploy write channel 2':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'channel deploy \"Send HL7 To Pacs Boston\"' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['import write channel 2'] ]
   }
 
   exec { 'start all channels':
     cwd      => '/usr/local/mirthconnect',
     command  => "echo 'channel start *' | /usr/local/mirthconnect/mccommand",
-    require => [ Service['mcservice'], Exec['deploy read channel'], Exec['deploy write channel'] ]
+    require => [ Service['mcservice'], Exec['deploy read channel'], Exec['deploy write channel 1'], Exec['deploy write channel 2'] ]
   }
 
 }
