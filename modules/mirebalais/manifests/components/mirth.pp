@@ -6,7 +6,10 @@ class mirebalais::components::mirth (
     $mirth_user = $mirebalais::mirth_user,
     $mirth_password = $mirebalais::mirth_password,
     $default_db = $mirebalais::mysql_default_db,
-    $tomcat = $mirebalais::tomcat
+    $tomcat = $mirebalais::tomcat,
+    $pacs_ip_address = $mirebalais::pacs_ip_address,
+    $pacs_destination_port = $mirebalais::pacs_destination_port
+
   ){
 
   database { $mirth_db :
@@ -88,7 +91,53 @@ class mirebalais::components::mirth (
   exec { 'create mirth user':
     cwd      => '/usr/local/mirthconnect',
     command  => "echo 'user add ${mirth_user} ${mirth_password} mirth user PIH mogoodrich@pih.org' | /usr/local/mirthconnect/mccommand",
-    require => [ Service['mcservice'], Exec['mirth-unzip'] ]
+    require => Service['mcservice']
+  }
+
+  exec { 'stop all channels':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'channel stop *' | /usr/local/mirthconnect/mccommand",
+    require => Service['mcservice']
+  }
+
+  file { '/tmp/readHL7FromOpenmrsDatabaseChannel.xml':
+    ensure  => present,
+    content => template("mirebalais/mirth/readHL7FromOpenmrsDatabaseChannel.xml.erb"),
+  }
+
+  file { '/tmp/sendHL7ToPacsChannel.xml':
+    ensure  => present,
+    content => template("mirebalais/mirth/sendHL7ToPacsChannel.xml.erb"),
+  }
+
+  exec { 'import read channel':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'import /tmp/readHL7FromOpenmrsDatabaseChannel.xml force' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['stop all channels'], File['/tmp/readHL7FromOpenmrsDatabaseChannel.xml'] ]
+  }
+
+  exec { 'import write channel':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'import /tmp/sendHL7ToPacsChannel.xml force' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['stop all channels'], File['/tmp/sendHL7ToPacsChannel.xml'] ]
+  }
+
+  exec { 'deploy read channel':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'channel deploy \"Read HL7 From OpenMRS Database\"' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['import read channel'] ]
+  }
+
+  exec { 'deploy write channel':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'channel deploy \"Send HL7 To Pacs\"' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['import write channel'] ]
+  }
+
+  exec { 'start all channels':
+    cwd      => '/usr/local/mirthconnect',
+    command  => "echo 'channel start *' | /usr/local/mirthconnect/mccommand",
+    require => [ Service['mcservice'], Exec['deploy read channel'], Exec['deploy write channel'] ]
   }
 
 }

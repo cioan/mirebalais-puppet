@@ -9,6 +9,8 @@ class mirebalais(
     $mysql_mirth_db_password = 'foo',
     $mirth_user = 'mirth',
     $mirth_password = 'Mirth123',
+    $pacs_ip_address = '127.0.0.1',
+    $pacs_destination_port = '6660'
   ){
 
   include mirebalais::components::java
