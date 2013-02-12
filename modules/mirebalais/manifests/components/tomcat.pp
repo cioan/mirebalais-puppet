@@ -35,6 +35,14 @@ class mirebalais::components::tomcat (
     require => [ Package["tar"], Wget::Fetch["download-tomcat"], User[$tomcat] ],
   } ~>
 
+  file { "/usr/local/apache-tomcat-${version}":
+    ensure  => directory,
+    owner   => $tomcat,
+    group   => $tomcat,
+    recurse => true,
+    require => Exec["tomcat-unzip"],
+  } ~>
+
   file { "/usr/local/${tomcat}":
     ensure  => 'link',
     target  => "/usr/local/apache-tomcat-${version}",
@@ -74,7 +82,7 @@ class mirebalais::components::tomcat (
 
   service { $tomcat:
     enable => true,
-    require => [ Exec['tomcat-unzip'], File["/usr/local/${tomcat}"] ],
+    require => [ Exec['tomcat-unzip'], File["/usr/local/${tomcat}"], File["/usr/local/apache-tomcat-${version}"] ],
   }   
 
 }
