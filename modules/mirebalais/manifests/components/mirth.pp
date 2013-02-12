@@ -10,7 +10,7 @@ class mirebalais::components::mirth (
     $default_db_password = $mirebalais::mysql_default_db_password,
     $tomcat = $mirebalais::tomcat,
     $pacs_mirebalais_ip_address = $mirebalais::pacs_mirebalais_ip_address,
-    $pacs_mirebalais_destination_port = $mirebalais::pacs_mirebalais_destination_port
+    $pacs_mirebalais_destination_port = $mirebalais::pacs_mirebalais_destination_port,
     $pacs_boston_ip_address = $mirebalais::pacs_boston_ip_address,
     $pacs_boston_destination_port = $mirebalais::pacs_boston_destination_port
   ){
