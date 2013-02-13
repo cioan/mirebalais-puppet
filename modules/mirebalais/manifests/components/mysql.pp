@@ -3,6 +3,7 @@ class mirebalais::components::mysql (
     $default_db = $mirebalais::mysql_default_db,
     $default_db_user = $mirebalais::mysql_default_db_user,
     $default_db_password = $mirebalais::mysql_default_db_password,
+    $mysql_server_id = 1
   ){
 
   include mysql
@@ -23,7 +24,7 @@ class mirebalais::components::mysql (
   }
 
   file { '/etc/mysql/my.cnf':
-    source  => 'puppet:///modules/mirebalais/mysql/my.cnf',
+    content => template("mirebalais/mysql/my.cnf.erb"),
     ensure  => file,
   } ~>
 
@@ -54,6 +55,21 @@ class mirebalais::components::mysql (
   database_grant { "root@localhost/${default_db}":
     privileges => ['all'],
     require => Service['mysqld'],
+  }
+
+  if $environment == 'production' {
+
+    database_user { "${replication_user}@'%'":
+      password_hash => mysql_password($replication_password),
+      ensure  => present,
+      require => Service['mysqld'],
+    }
+
+    database_grant { "${replication_user}@'%'/*.*":
+      priviledges => ['Repl_slave_priv'],
+      require => Service['mysqld'],
+    }
+
   }
 
 }

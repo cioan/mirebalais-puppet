@@ -60,11 +60,13 @@ class mirebalais::components::openmrs (
     require => Exec['migrate core data'],
   }
 
-  exec { "tomcat-start":
-    command => "service ${tomcat} start",
-    user    => 'root',
-    require => [ Exec['migrate update to latest'], Service['mcservice'], Exec['create mirth user'] ]
-  }   
+  if $environment == 'test' {
+    exec { "tomcat-start":
+      command => "service ${tomcat} start",
+      user    => 'root',
+      require => [ Exec['migrate update to latest'], Service['mcservice'], Exec['create mirth user'] ]
+    }
+  }
 
   file { "/home/${tomcat}/.OpenMRS":
     ensure  => directory,

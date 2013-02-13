@@ -85,6 +85,10 @@ query_cache_size        = 16M
 #       other settings you may need to change.
 #server-id		= 1
 #log_bin			= /var/log/mysql/mysql-bin.log
+<% if @environment != 'test' %>
+log-bin=mysql-bin
+server-id=<%= @mysql_server_id %>
+<% end %>
 expire_logs_days	= 10
 max_binlog_size         = 100M
 #binlog_do_db		= include_database_name
