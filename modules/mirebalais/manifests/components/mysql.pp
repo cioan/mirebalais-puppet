@@ -3,6 +3,8 @@ class mirebalais::components::mysql (
     $default_db = $mirebalais::mysql_default_db,
     $default_db_user = $mirebalais::mysql_default_db_user,
     $default_db_password = $mirebalais::mysql_default_db_password,
+    $replication_user = 'replication',
+    $replication_password = 'replication',
     $mysql_server_id = 1
   ){
 
@@ -59,14 +61,14 @@ class mirebalais::components::mysql (
 
   if $environment == 'production' {
 
-    database_user { "${replication_user}@'%'":
+    database_user { "${replication_user}@%":
       password_hash => mysql_password($replication_password),
       ensure  => present,
       require => Service['mysqld'],
     }
 
-    database_grant { "${replication_user}@'%'/*.*":
-      privileges => ['Repl_slave_priv'],
+    database_grant { "${replication_user}@%":
+      privileges => [Repl_slave_priv],
       require => Service['mysqld'],
     }
 
