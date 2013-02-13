@@ -66,7 +66,7 @@ class mirebalais::components::mysql (
     }
 
     database_grant { "${replication_user}@'%'/*.*":
-      priviledges => ['Repl_slave_priv'],
+      privileges => ['Repl_slave_priv'],
       require => Service['mysqld'],
     }
 
