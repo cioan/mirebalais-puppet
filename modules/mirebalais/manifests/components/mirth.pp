@@ -123,12 +123,6 @@ class mirebalais::components::mirth (
       require => [ Exec['wait for mcservice'], Exec['deploy read channel'], Exec['deploy write channel 1'], Exec['deploy write channel 2'] ]
     }
   }
-  else {
-    service { 'mcservice':
-      enable   => true,
-      require  => [ File['/etc/init.d/mcservice'], File['/usr/local/mirthconnect/conf/mirth.properties'], File["/usr/local/mirthconnect/appdata"], Database[$mirth_db] ]
-    }
-  }
 
   file {"/usr/local/mirthconnect":
     ensure => directory,
