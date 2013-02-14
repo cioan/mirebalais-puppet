@@ -5,8 +5,17 @@ class mirebalais::components::mysql (
     $default_db_password = $mirebalais::mysql_default_db_password,
     $replication_user = 'replication',
     $replication_password = 'replication',
-    $mysql_server_id = 1
+    $master_ip = '10.10.122.164'
   ){
+
+  case $environment {
+    production: {
+      $mysql_server_id = 1
+    }
+    production_slave: {
+      $mysql_server_id = 2
+    }
+  }
 
   include mysql
 
@@ -19,12 +28,6 @@ class mirebalais::components::mysql (
     },
   } ->
 
-  class { 'mysql::backup':
-    backupuser     => 'backup',
-    backuppassword => 'backup',
-    backupdir      => '/tmp/backups',
-  }
-
   file { '/etc/mysql/my.cnf':
     content => template("mirebalais/mysql/my.cnf.erb"),
     ensure  => file,
@@ -35,6 +38,14 @@ class mirebalais::components::mysql (
     name     => 'mysql',
     enable   => true,
     require  => [File['/etc/mysql/my.cnf'], Package['mysql-server']],
+  }
+
+  if $environment == 'production' {
+    class { 'mysql::backup':
+      backupuser     => 'backup',
+      backuppassword => 'backup',
+      backupdir      => '/tmp/backups',
+    }
   }
 
   if $environment != 'production_slave' {

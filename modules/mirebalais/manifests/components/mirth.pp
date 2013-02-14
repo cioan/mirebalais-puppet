@@ -15,13 +15,13 @@ class mirebalais::components::mirth (
     $pacs_boston_destination_port = $mirebalais::pacs_boston_destination_port
   ){
 
-  database { $mirth_db :
-    require => Service['mysqld'],
-    ensure  => present,
-    charset => 'utf8',
-  }
-
   if $environment != 'production_slave' {
+    database { $mirth_db :
+      require => Service['mysqld'],
+      ensure  => present,
+      charset => 'utf8',
+    }
+
     database_user { "${mirth_db_user}@localhost":
       password_hash => mysql_password($mirth_db_password),
       ensure  => present,
@@ -42,52 +42,7 @@ class mirebalais::components::mirth (
       privileges => ['all'],
       require => [ Service['mysqld'], Database[$default_db] ]
     }
-  }
 
-  file {"/usr/local/mirthconnect":
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root'
-  }
-
-  wget::fetch { "download-mirth":
-    source      => 'http://downloads.mirthcorp.com/connect/2.2.1.5861.b1248/mirthconnect-2.2.1.5861.b1248-unix.tar.gz',
-    destination => "/tmp/mirth.tgz",
-    timeout     => 0,
-    verbose     => false,
-  } ~>
-
-  exec { "mirth-unzip":
-    cwd     => "/usr/local",
-    command => "tar -C mirthconnect --strip-components=1 -xzf /tmp/mirth.tgz",
-    unless  => "test -f /usr/local/mirthconnect/mcservice",
-    require => [ Package["tar"], Wget::Fetch["download-mirth"], File["/usr/local/mirthconnect"] ],
-  }
-
-  file {"/usr/local/mirthconnect/logs": 
-    ensure  => directory,
-    require => Exec['mirth-unzip']
-  }
-
-  file {"/usr/local/mirthconnect/appdata": 
-    source  => "puppet:///modules/mirebalais/mirth/appdata",
-    recurse => true,
-    require => Exec['mirth-unzip']
-  }
-
-  file { '/usr/local/mirthconnect/conf/mirth.properties':
-    ensure  => present,
-    content => template("mirebalais/mirth/mirth.properties.erb"),
-    require => Exec['mirth-unzip']
-  }
-
-  file { '/etc/init.d/mcservice':
-    ensure => link,
-    target => '/usr/local/mirthconnect/mcservice',
-    require => Exec['mirth-unzip']
-  }
-
-  if $environment != 'production_slave' {
     service { 'mcservice':
       ensure   => running,
       enable   => true,
@@ -167,6 +122,55 @@ class mirebalais::components::mirth (
       command  => "echo 'channel start *' | /usr/local/mirthconnect/mccommand",
       require => [ Exec['wait for mcservice'], Exec['deploy read channel'], Exec['deploy write channel 1'], Exec['deploy write channel 2'] ]
     }
+  }
+  else {
+    service { 'mcservice':
+      enable   => true,
+      require  => [ File['/etc/init.d/mcservice'], File['/usr/local/mirthconnect/conf/mirth.properties'], File["/usr/local/mirthconnect/appdata"], Database[$mirth_db] ]
+    }
+  }
+
+  file {"/usr/local/mirthconnect":
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root'
+  }
+
+  wget::fetch { "download-mirth":
+    source      => 'http://downloads.mirthcorp.com/connect/2.2.1.5861.b1248/mirthconnect-2.2.1.5861.b1248-unix.tar.gz',
+    destination => "/tmp/mirth.tgz",
+    timeout     => 0,
+    verbose     => false,
+  } ~>
+
+  exec { "mirth-unzip":
+    cwd     => "/usr/local",
+    command => "tar -C mirthconnect --strip-components=1 -xzf /tmp/mirth.tgz",
+    unless  => "test -f /usr/local/mirthconnect/mcservice",
+    require => [ Package["tar"], Wget::Fetch["download-mirth"], File["/usr/local/mirthconnect"] ],
+  }
+
+  file {"/usr/local/mirthconnect/logs": 
+    ensure  => directory,
+    require => Exec['mirth-unzip']
+  }
+
+  file {"/usr/local/mirthconnect/appdata": 
+    source  => "puppet:///modules/mirebalais/mirth/appdata",
+    recurse => true,
+    require => Exec['mirth-unzip']
+  }
+
+  file { '/usr/local/mirthconnect/conf/mirth.properties':
+    ensure  => present,
+    content => template("mirebalais/mirth/mirth.properties.erb"),
+    require => Exec['mirth-unzip']
+  }
+
+  file { '/etc/init.d/mcservice':
+    ensure => link,
+    target => '/usr/local/mirthconnect/mcservice',
+    require => Exec['mirth-unzip']
   }
 
 }
