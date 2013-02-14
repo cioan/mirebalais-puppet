@@ -21,7 +21,7 @@ class mirebalais::components::mirth (
     charset => 'utf8',
   }
 
-  if $environment != 'productin_slave' {
+  if $environment != 'production_slave' {
     database_user { "${mirth_db_user}@localhost":
       password_hash => mysql_password($mirth_db_password),
       ensure  => present,
