@@ -37,29 +37,31 @@ class mirebalais::components::mysql (
     require  => [File['/etc/mysql/my.cnf'], Package['mysql-server']],
   } ->
 
-  database { $default_db :
-    require => Service['mysqld'],
-    ensure  => present,
-    charset => 'utf8',
-  } ->
+  if $environment != 'production_slave' {
+    database { $default_db :
+      require => Service['mysqld'],
+      ensure  => present,
+      charset => 'utf8',
+    } ->
 
-  database_user { "${default_db_user}@localhost":
-    password_hash => mysql_password($default_db_password),
-    ensure  => present,
-    require => Service['mysqld'],
-  } ->
+    database_user { "${default_db_user}@localhost":
+      password_hash => mysql_password($default_db_password),
+      ensure  => present,
+      require => Service['mysqld'],
+    } ->
 
-  database_grant { "${default_db_user}@localhost/${default_db}":
-    privileges => ['all'],
-    require => Service['mysqld'],
-  } ->
+    database_grant { "${default_db_user}@localhost/${default_db}":
+      privileges => ['all'],
+      require => Service['mysqld'],
+    } ->
 
-  database_grant { "root@localhost/${default_db}":
-    privileges => ['all'],
-    require => Service['mysqld'],
+    database_grant { "root@localhost/${default_db}":
+      privileges => ['all'],
+      require => Service['mysqld'],
+    }
   }
 
-  if $environment == 'production' {
+  if $environment != 'test' {
 
     database_user { "${replication_user}@%":
       password_hash => mysql_password($replication_password),
@@ -72,6 +74,13 @@ class mirebalais::components::mysql (
       require => Service['mysqld'],
     }
 
+  }
+
+  if $environment == 'production_slave' {
+    exec { "master replication":
+      command => "/usr/bin/mysql -uroot -p${root_password} -e \"CHANGE MASTER TO MASTER_HOST='${master_ip}', MASTER_USER='${replication_user}', MASTER_PASSWORD='${replication_password}', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=245;\"",
+      require => Service["mysqld"],
+    }
   }
 
 }

@@ -34,30 +34,34 @@ class mirebalais::components::openmrs (
     require => Package['mirebalais'],
   }   
 
-  file { '/tmp/liquibase.jar':
-    ensure => present,
-    source => "puppet:///modules/mirebalais/liquibase.jar"
-  }
+  if $environment != 'production_slave' {
 
-  exec { 'migrate base schema':
-    cwd     =>  '/tmp/',
-    command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-schema-only.xml --username=${default_db_user} --password=${default_db_password} update",
-    user    => 'root',
-    require => [ Package['mirebalais'], Database[$default_db], Exec['tomcat-stop'] ],
-  }
+    file { '/tmp/liquibase.jar':
+      ensure => present,
+      source => "puppet:///modules/mirebalais/liquibase.jar"
+    }
 
-  exec { 'migrate core data':
-    cwd     =>  '/tmp/',
-    command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-core-data.xml --username=${default_db_user} --password=${default_db_password} update",
-    user    => 'root',
-    require => Exec['migrate base schema'],
-  }
+    exec { 'migrate base schema':
+      cwd     =>  '/tmp/',
+      command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-schema-only.xml --username=${default_db_user} --password=${default_db_password} update",
+      user    => 'root',
+      require => [ Package['mirebalais'], Database[$default_db], Exec['tomcat-stop'] ],
+    }
 
-  exec { 'migrate update to latest':
-    cwd     =>  '/tmp/',
-    command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-update-to-latest.xml --username=${default_db_user} --password=${default_db_password} update",
-    user    => 'root',
-    require => Exec['migrate core data'],
+    exec { 'migrate core data':
+      cwd     =>  '/tmp/',
+      command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-core-data.xml --username=${default_db_user} --password=${default_db_password} update",
+      user    => 'root',
+      require => Exec['migrate base schema'],
+    }
+
+    exec { 'migrate update to latest':
+      cwd     =>  '/tmp/',
+      command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-update-to-latest.xml --username=${default_db_user} --password=${default_db_password} update",
+      user    => 'root',
+      require => Exec['migrate core data'],
+    }
+
   }
 
   if $environment == 'test' {
