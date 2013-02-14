@@ -35,7 +35,7 @@ class mirebalais::components::mysql (
     name     => 'mysql',
     enable   => true,
     require  => [File['/etc/mysql/my.cnf'], Package['mysql-server']],
-  } ->
+  }
 
   if $environment != 'production_slave' {
     database { $default_db :
@@ -59,21 +59,20 @@ class mirebalais::components::mysql (
       privileges => ['all'],
       require => Service['mysqld'],
     }
-  }
 
-  if $environment != 'test' {
+    if $environment != 'test' {
 
-    database_user { "${replication_user}@%":
-      password_hash => mysql_password($replication_password),
-      ensure  => present,
-      require => Service['mysqld'],
+      database_user { "${replication_user}@%":
+        password_hash => mysql_password($replication_password),
+        ensure  => present,
+        require => Service['mysqld'],
+      }
+
+      database_grant { "${replication_user}@%":
+        privileges => [Repl_slave_priv],
+        require => Service['mysqld'],
+      }
     }
-
-    database_grant { "${replication_user}@%":
-      privileges => [Repl_slave_priv],
-      require => Service['mysqld'],
-    }
-
   }
 
   if $environment == 'production_slave' {
