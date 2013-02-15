@@ -64,7 +64,7 @@ class mirebalais::components::openmrs (
 
   }
 
-  if $environment == 'test' {
+  if $environment != 'production_slave' {
     exec { "tomcat-start":
       command => "service ${tomcat} start",
       user    => 'root',
