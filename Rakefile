@@ -1,7 +1,8 @@
+require 'rspec/core/rake_task'
 require 'puppet-lint'
 load 'tasks/whitespace.rake'
 
-task :default => [:simplelint, :validate]
+task :default => ['whitespace:check', :simplelint, :validate, :spec]
 
 task :simplelint do
   linter = PuppetLint.new
@@ -19,3 +20,8 @@ task :validate do
   fail unless $?.to_i == 0
 end
 
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  file_list = FileList['spec/**/*_spec.rb']
+  # file_list.exclude 'spec/whatever/...'
+  spec.pattern = file_list
+end
