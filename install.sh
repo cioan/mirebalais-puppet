@@ -8,20 +8,14 @@ if [ -z "$1" ]
     exit 1
 fi
 
-apt-get install -y puppet rubygems
+apt-get install -y rubygems
 
-gem install --no-rdoc --no-ri puppet-module
+gem install bundler
 
-MODULES_FILE="PuppetModules"
+bundle
 
-function install_modules(){
-  while read module 
-  do
-    puppet module install $module
-  done < $MODULES_FILE
-}
+librarian-puppet install
 
-install_modules
 puppet apply -v --modulepath "modules/:./:$(puppet config print modulepath)" site.pp --environment $1
 
 exit 0
