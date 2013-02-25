@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Mirebalais Backup Script
+#
+
+USER=<%= @backup_user %>
+PASS=<%= @backup_password %>
+DIR=/home/<%= @tomcat %>/backups
+
+FILENAME=mirebalais_backup_`date +%Y%m%d-%H%M%S`.sql.bz2
+
+# create the needed directories
+mkdir -p ${DIR}/current
+mkdir -p ${DIR}/sequences
+
+
+mysqldump -u${USER} -p${PASS} --opt --flush-logs --single-transaction openmrs | bzcat -zc > ${DIR}/sequences/${FILENAME}
+
+# link the current to the latest dump
+rm -f ${DIR}/current/mirebalais_current_backup.sql.bz2
+ln -s ${DIR}/sequences/${FILENAME} ${DIR}/current/mirebalais_current_backup.sql.bz2
+
+# TBD:  Setup keygen
+#scp hum-openmrs.tar.7z backup@dev.pih-emr.org:hum/db/${FILENAME}
+

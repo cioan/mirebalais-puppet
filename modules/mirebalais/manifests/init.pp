@@ -20,6 +20,7 @@ class mirebalais(
   include mirebalais::components::openmrs
   include mirebalais::components::apache_ssl
   include mirebalais::components::mirth
+  include mirebalais::components::mysql_backup
 
   class { 'mirebalais::components::mysql':
     root_password => $mysql_root_password,
@@ -28,12 +29,12 @@ class mirebalais(
     default_db_password => $mysql_default_db_password 
   }
 
+  class { 'apt':
+    always_apt_update    => true,
+  }
+
   file { '/etc/environment':
     source => "puppet:///modules/mirebalais/etc/environment"
   }  
 
-}
-
-class { 'apt':
-  always_apt_update    => true,
 }
