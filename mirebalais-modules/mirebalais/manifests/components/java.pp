@@ -1,5 +1,4 @@
 class mirebalais::components::java {
-  notice ("Installing for $::operatingsystem in family $::osfamily")
   include apt
 
   apt::ppa { "ppa:webupd8team/java": }

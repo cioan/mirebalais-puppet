@@ -20,12 +20,15 @@ class mirebalais(
   include mirebalais::components::openmrs
   include mirebalais::components::apache_ssl
   include mirebalais::components::mirth
-  include mirebalais::components::mysql_backup
+
+  if $environment == 'production' {
+    include mirebalais::components::mysql_backup
+  }
 
   class { 'mirebalais::components::mysql':
-    root_password => $mysql_root_password,
-    default_db => $mysql_default_db,
-    default_db_user => $mysql_default_db_user,
+    root_password       => $mysql_root_password,
+    default_db          => $mysql_default_db,
+    default_db_user     => $mysql_default_db_user,
     default_db_password => $mysql_default_db_password
   }
 
@@ -34,7 +37,7 @@ class mirebalais(
   }
 
   file { '/etc/environment':
-    source => "puppet:///modules/mirebalais/etc/environment"
+    source => 'puppet:///modules/mirebalais/etc/environment'
   }
 
 }
