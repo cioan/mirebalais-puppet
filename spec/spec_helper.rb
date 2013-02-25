@@ -8,7 +8,7 @@ RSpec.configure do |conf|
   conf.module_path = module_path
   puts "Module path: #{module_path}"
   conf.manifest_dir = File.join(fixture_path, 'manifests')
-  # conf.hiera_config = File.join(fixture_path, 'hiera.yaml')
+  conf.hiera_config = File.join(fixture_path, 'hiera.yaml')
 end
 
 if ENV['PUPPET_DEBUG']
