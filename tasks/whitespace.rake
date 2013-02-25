@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 class WhitespaceCheck < Struct.new(:pattern, :message)
+  TAB_REPLACEMENT = '  '
 
   def lines
     @lines ||= []
@@ -24,7 +25,7 @@ class WhitespaceCheck < Struct.new(:pattern, :message)
     whitespace_checks.map {|m| m.error_for(filename)}.compact.uniq
   end
 
-  def self.delete_whitespaces_for(files)
+  def self.clean_whitespaces_for(files)
     files_with_trailing_whitespaces = []
     @whitespace_errors ||= files.inject([]) do |errors, filename|
       puts "Checking #{filename}…" if ENV['VERBOSE']
@@ -33,8 +34,9 @@ class WhitespaceCheck < Struct.new(:pattern, :message)
       unless error_list.empty?
         files_with_trailing_whitespaces << filename
         system "sed 's\/[ \t\r]*$\/\/' #{filename} > temp"
-        system "rm #{filename}"
-        system "mv temp #{filename}"
+        system "sed 's\/\t\/#{TAB_REPLACEMENT}\/g' temp > temp2"
+        system "rm #{filename} temp"
+        system "mv temp2 #{filename}"
         puts "Cleaned #{filename}"
       end
     end
@@ -107,7 +109,7 @@ namespace :whitespace do
 
   desc 'whitepasce:clean - needs sed'
   task :clean do
-    sanitized_files = WhitespaceCheck.delete_whitespaces_for files
+    sanitized_files = WhitespaceCheck.clean_whitespaces_for files
     puts "Deleted trailing whitespaces for #{sanitized_files.join(',')}." unless sanitized_files.empty?
   end
 end
