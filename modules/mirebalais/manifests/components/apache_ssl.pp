@@ -1,12 +1,12 @@
 class mirebalais::components::apache_ssl (
     $tomcat = $mirebalais::tomcat,
   ){
-  
-  package { "apache2": 
+
+  package { "apache2":
     ensure => installed,
   }
 
-  package { "libapache2-mod-jk": 
+  package { "libapache2-mod-jk":
     ensure => installed,
   }
 
@@ -29,7 +29,7 @@ class mirebalais::components::apache_ssl (
     ensure => file,
     source => "puppet:///modules/mirebalais/apache2/sites-available/default"
   }
-  
+
   file { '/etc/ssl/certs/_.pih-emr.org.crt':
     ensure => present,
     source => "puppet:///modules/mirebalais/etc/ssl/certs/_.pih-emr.org.crt"

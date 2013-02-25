@@ -15,7 +15,7 @@
       <property name="DataType">Database Reader</property>
       <property name="URL">jdbc:mysql://localhost:3306/<%= @default_db %>?autoReconnect=true&amp;sessionVariables=storage_engine=InnoDB&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
       <property name="ack">UPDATE pacsintegration_outbound_queue SET processed=1
-			WHERE outbound_queue_id=${outbound_queue_id};</property>
+      WHERE outbound_queue_id=${outbound_queue_id};</property>
       <property name="ackScript"></property>
       <property name="driver">com.mysql.jdbc.Driver</property>
       <property name="host">query</property>

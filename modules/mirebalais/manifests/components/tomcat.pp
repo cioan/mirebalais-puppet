@@ -83,6 +83,6 @@ class mirebalais::components::tomcat (
   service { $tomcat:
     enable => true,
     require => [ Exec['tomcat-unzip'], File["/usr/local/${tomcat}"], File["/usr/local/apache-tomcat-${version}"] ],
-  }   
+  }
 
 }

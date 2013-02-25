@@ -1,9 +1,9 @@
 class mirebalais::components::java {
   include apt
-  
+
   apt::ppa { "ppa:webupd8team/java": }
 
-  package { "oracle-java6-installer": 
+  package { "oracle-java6-installer":
     ensure => installed,
     require => [Apt::Ppa['ppa:webupd8team/java'],
                 Exec['skipping license approval']]

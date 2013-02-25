@@ -45,15 +45,15 @@ jmx.host = localhost
 database = mysql
 
 # examples:
-#	Derby		jdbc:derby:${dir.base}/mirthdb;create=true
-#	PostgreSQL	jdbc:postgresql://localhost:5432/mirthdb
-# 	MySQL		jdbc:mysql://localhost:3306/mirthdb
-#	Oracle		jdbc:oracle:thin:@localhost:1521:DB
-#	SQLServer	jdbc:jtds:sqlserver://localhost:1433/mirthdb
+#  Derby    jdbc:derby:${dir.base}/mirthdb;create=true
+#  PostgreSQL  jdbc:postgresql://localhost:5432/mirthdb
+#   MySQL    jdbc:mysql://localhost:3306/mirthdb
+#  Oracle    jdbc:oracle:thin:@localhost:1521:DB
+#  SQLServer  jdbc:jtds:sqlserver://localhost:1433/mirthdb
 database.url = jdbc:mysql://localhost:3306/<%= @mirth_db %>
 
 # if using a custom driver, specify it here
-#database.driver = 
+#database.driver =
 
 # database credentials
 database.username = <%= @mirth_db_user %>

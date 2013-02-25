@@ -14,7 +14,7 @@ class mirebalais::components::openmrs (
     content   => "APT::Get::AllowUnauthenticated yes;",
     mode      => 644;
   }
-  
+
   apt::source { 'mirebalais':
     ensure      => present,
     location    => 'http://bamboo.pih-emr.org/mirebalais-repo',
@@ -23,7 +23,7 @@ class mirebalais::components::openmrs (
     include_src => false,
   }
 
-  package { "mirebalais": 
+  package { "mirebalais":
     ensure => installed,
     require => [ Service[$tomcat], Apt::Source['mirebalais'], File['/etc/apt/apt.conf.d/99auth'] ],
   }
@@ -32,7 +32,7 @@ class mirebalais::components::openmrs (
     command => "service ${tomcat} stop",
     user    => 'root',
     require => Package['mirebalais'],
-  }   
+  }
 
   if $environment != 'production_slave' {
 
@@ -90,8 +90,8 @@ class mirebalais::components::openmrs (
     group   => $tomcat,
     mode    => 644,
     require => File["/home/${tomcat}/.OpenMRS"]
-  } 
-  
+  }
+
   file { "/home/${tomcat}/.OpenMRS/mirebalais-runtime.properties":
     content => template("mirebalais/OpenMRS/mirebalais-runtime.properties.erb"),
     ensure  => present,

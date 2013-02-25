@@ -19,10 +19,10 @@ class mirebalais::components::mysql (
 
   include mysql
 
-  class { 'mysql::server': 
+  class { 'mysql::server':
     manage_service => false,
-    config_hash => { 
-      'root_password' => $root_password,  
+    config_hash => {
+      'root_password' => $root_password,
       'config_file' => '/tmp/my.cnf',
       'restart' => false
     },

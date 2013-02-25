@@ -144,12 +144,12 @@ class mirebalais::components::mirth (
     require => [ Package["tar"], Wget::Fetch["download-mirth"], File["/usr/local/mirthconnect"] ],
   }
 
-  file {"/usr/local/mirthconnect/logs": 
+  file {"/usr/local/mirthconnect/logs":
     ensure  => directory,
     require => Exec['mirth-unzip']
   }
 
-  file {"/usr/local/mirthconnect/appdata": 
+  file {"/usr/local/mirthconnect/appdata":
     source  => "puppet:///modules/mirebalais/mirth/appdata",
     recurse => true,
     require => Exec['mirth-unzip']
