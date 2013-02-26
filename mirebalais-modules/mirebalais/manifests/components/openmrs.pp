@@ -38,7 +38,7 @@ class mirebalais::components::openmrs (
       command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-schema-only.xml --username=${default_db_user} --password=${default_db_password} update",
       user    => 'root',
       unless  => "mysql -u${default_db_user} -p${default_db_password} ${default_db} -e 'desc patient'",
-      require => [ Package['mirebalais'], Database[$default_db], Exec['tomcat-stop'] ],
+      require => [ Package['mirebalais'], Database[$default_db] ],
     }
 
     exec { 'migrate core data':
