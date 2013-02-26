@@ -80,7 +80,9 @@ def files
   exclude_files = [
     %r[^vendor/],
     %r[^coverage/],
+    %r[^modules/],
     %r[^tmp/],
+    %r[^.tmp/],
     %r[^spec/cassettes/],
     %r[^features/cassettes/],
     %r[^.bundle],
@@ -104,7 +106,7 @@ namespace :whitespace do
     if errors.any?
       puts errors.join("\n")
       raise "This project has whitespace errors. Please fix them before proceeding."
-     end
+    end
   end
 
   desc 'whitepasce:clean - needs sed'
