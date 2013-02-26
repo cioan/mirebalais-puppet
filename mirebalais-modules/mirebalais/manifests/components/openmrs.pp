@@ -26,12 +26,6 @@ class mirebalais::components::openmrs (
     require => [ Service[$tomcat], Apt::Source['mirebalais'], File['/etc/apt/apt.conf.d/99auth'] ],
   }
 
-  exec { 'tomcat-stop':
-    command => "service ${tomcat} stop",
-    user    => 'root',
-    require => Package['mirebalais'],
-  }
-
   if $environment != 'production_slave' {
 
     file { '/tmp/liquibase.jar':
@@ -67,9 +61,11 @@ class mirebalais::components::openmrs (
 
   if $environment != 'production_slave' {
     exec { 'tomcat-start':
-      command => "service ${tomcat} start",
-      user    => 'root',
-      require => [ Exec['migrate update to latest'], Service['mcservice'], Exec['create mirth user'] ]
+      command     => "service ${tomcat} start",
+      user        => 'root',
+      require     => [ Service['mcservice'], Exec['create mirth user'] ],
+      subscribe   => Exec['migrate update to latest'],
+      refreshonly => true
     }
   }
 
