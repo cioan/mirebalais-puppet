@@ -41,15 +41,18 @@ class mirebalais::components::apache_ssl (
   }
 
   exec { 'enable apache mods':
-    command => 'a2enmod jk && a2enmod deflate && a2enmod ssl && a2ensite default-ssl && a2enmod rewrite',
-    user    => 'root',
-    require => [ Service[$tomcat], Package['apache2'], Package['libapache2-mod-jk'] ],
+    command     => 'a2enmod jk && a2enmod deflate && a2enmod ssl && a2ensite default-ssl && a2enmod rewrite',
+    user        => 'root',
+    subscribe   => [ Service[$tomcat], Package['apache2'], Package['libapache2-mod-jk'] ],
+    refreshonly => true
   }
 
   exec { 'restart apache':
-    command => 'service apache2 restart',
-    user    => 'root',
-    require => [ Service['apache2'], Exec['enable apache mods'] ],
+    command     => 'service apache2 restart',
+    user        => 'root',
+    require     => Service['apache2'],
+    subscribe   => Exec['enable apache mods'],
+    refreshonly => true
   }
 
   service { 'apache2':
