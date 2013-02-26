@@ -1,4 +1,5 @@
 ---
+mysql_server_id: 1
 mysql_root_password: 'foo'
 mysql_default_db: 'openmrs'
 mysql_default_db_user: 'openmrs'

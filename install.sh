@@ -10,7 +10,7 @@ fi
 
 apt-get install -y rubygems
 
-gem install bundler
+gem install bundler --no-ri --no-rdoc
 
 bundle
 
