@@ -26,5 +26,3 @@ puppet apply -v \
   manifests/site.pp
 
 test $? -eq 0 -o $? -eq 2
-
-exit 0
