@@ -7,6 +7,7 @@ task :default => ['whitespace:check', :simplelint, :validate, :spec]
 task :simplelint do
   linter = PuppetLint.new
   PuppetLint.configuration.with_filename = true
+  PuppetLint.configuration.send("disable_80chars")
   PuppetLint.configuration.send("disable_documentation")
   Dir['mirebalais-modules/**/*.pp'].each do |pp|
     linter.file = pp
