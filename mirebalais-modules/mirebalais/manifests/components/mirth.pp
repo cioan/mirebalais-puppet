@@ -50,20 +50,24 @@ class mirebalais::components::mirth (
     }
 
     exec { 'wait for mcservice':
-      command => 'sleep 5',
-      require => Service['mcservice']
+      command     => 'sleep 5',
+      subscribe   => Service['mcservice'],
+      refreshonly => true
     }
 
     exec { 'create mirth user':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'user add ${mirth_user} ${mirth_password} mirth user PIH mogoodrich@pih.org' | /usr/local/mirthconnect/mccommand",
-      require => Exec['wait for mcservice']
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'user add ${mirth_user} ${mirth_password} mirth user PIH mogoodrich@pih.org' | /usr/local/mirthconnect/mccommand",
+      subscribe   => Exec['wait for mcservice'],
+      refreshonly => true
     }
 
     exec { 'stop all channels':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'channel stop *' | /usr/local/mirthconnect/mccommand",
-      require => Exec['wait for mcservice']
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'channel stop *' | /usr/local/mirthconnect/mccommand",
+      require     => Exec['wait for mcservice'],
+      subscribe   => [ File['/tmp/readHL7FromOpenmrsDatabaseChannel.xml'], File['/tmp/sendHL7ToPacsChannelMirebalais.xml'], File['/tmp/sendHL7ToPacsChannelBoston.xml'] ],
+      refreshonly => true
     }
 
     file { '/tmp/readHL7FromOpenmrsDatabaseChannel.xml':
@@ -82,39 +86,45 @@ class mirebalais::components::mirth (
     }
 
     exec { 'import read channel':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'import /tmp/readHL7FromOpenmrsDatabaseChannel.xml force' | /usr/local/mirthconnect/mccommand",
-      require => [ Exec['wait for mcservice'], Exec['stop all channels'], File['/tmp/readHL7FromOpenmrsDatabaseChannel.xml'] ]
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'import /tmp/readHL7FromOpenmrsDatabaseChannel.xml force' | /usr/local/mirthconnect/mccommand",
+      subscribe   => Exec['stop all channels'],
+      refreshonly => true
     }
 
     exec { 'deploy read channel':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'channel deploy \"Read HL7 From OpenMRS Database\"' | /usr/local/mirthconnect/mccommand",
-      require => [ Exec['wait for mcservice'], Exec['import read channel'] ]
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'channel deploy \"Read HL7 From OpenMRS Database\"' | /usr/local/mirthconnect/mccommand",
+      subscribe   => Exec['import read channel'],
+      refreshonly => true
     }
 
     exec { 'import write channel 1':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'import /tmp/sendHL7ToPacsChannelMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
-      require => [ Exec['wait for mcservice'], Exec['deploy read channel'], File['/tmp/sendHL7ToPacsChannelMirebalais.xml'] ]
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'import /tmp/sendHL7ToPacsChannelMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
+      subscribe   => Exec['stop all channels'],
+      refreshonly => true
     }
 
     exec { 'deploy write channel 1':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'channel deploy \"Send HL7 To Pacs Mirebalais\"' | /usr/local/mirthconnect/mccommand",
-      require => [ Exec['wait for mcservice'], Exec['import write channel 1'] ]
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'channel deploy \"Send HL7 To Pacs Mirebalais\"' | /usr/local/mirthconnect/mccommand",
+      subscribe   => Exec['import write channel 1'],
+      refreshonly => true
     }
 
     exec { 'import write channel 2':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'import /tmp/sendHL7ToPacsChannelBoston.xml force' | /usr/local/mirthconnect/mccommand",
-      require => [ Exec['wait for mcservice'], Exec['deploy write channel 1'], File['/tmp/sendHL7ToPacsChannelBoston.xml'] ]
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'import /tmp/sendHL7ToPacsChannelBoston.xml force' | /usr/local/mirthconnect/mccommand",
+      subscribe   => Exec['stop all channels'],
+      refreshonly => true
     }
 
     exec { 'deploy write channel 2':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'channel deploy \"Send HL7 To Pacs Boston\"' | /usr/local/mirthconnect/mccommand",
-      require => [ Exec['wait for mcservice'], Exec['import write channel 2'] ]
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'channel deploy \"Send HL7 To Pacs Boston\"' | /usr/local/mirthconnect/mccommand",
+      subscribe   => Exec['import write channel 2'],
+      refreshonly => true
     }
 
     exec { 'start all channels':
