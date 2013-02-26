@@ -9,9 +9,10 @@ class mirebalais::components::java {
   }
 
   exec {'skipping license approval':
-    command => "/bin/echo  'oracle-java6-installer shared/accepted-oracle-license-v1-1 boolean true' | /usr/bin/debconf-set-selections",
-    user    => 'root',
-    require => Apt::Ppa['ppa:webupd8team/java'],
+    command     => "/bin/echo  'oracle-java6-installer shared/accepted-oracle-license-v1-1 boolean true' | /usr/bin/debconf-set-selections",
+    user        => 'root',
+    subscribe   => Apt::Ppa['ppa:webupd8team/java'],
+    refreshonly => true
   }
 
 }
