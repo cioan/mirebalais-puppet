@@ -1,43 +1,43 @@
 class mirebalais::components::apache_ssl (
-    $tomcat = $mirebalais::tomcat,
+    $tomcat = hiera('tomcat'),
   ){
 
-  package { "apache2":
+  package { 'apache2':
     ensure => installed,
   }
 
-  package { "libapache2-mod-jk":
+  package { 'libapache2-mod-jk':
     ensure => installed,
   }
 
   file { '/etc/apache2/workers.properties':
-    ensure => present,
-    content => template("mirebalais/apache2/workers.properties.erb"),
+    ensure  => present,
+    content => template('mirebalais/apache2/workers.properties.erb'),
   }
 
   file { '/etc/apache2/mods-available/jk.conf':
     ensure => present,
-    source => "puppet:///modules/mirebalais/apache2/jk.conf"
+    source => 'puppet:///modules/mirebalais/apache2/jk.conf'
   }
 
   file { '/etc/apache2/sites-available/default-ssl':
     ensure => file,
-    source => "puppet:///modules/mirebalais/apache2/sites-available/default-ssl"
+    source => 'puppet:///modules/mirebalais/apache2/sites-available/default-ssl'
   }
 
   file { '/etc/apache2/sites-available/default':
     ensure => file,
-    source => "puppet:///modules/mirebalais/apache2/sites-available/default"
+    source => 'puppet:///modules/mirebalais/apache2/sites-available/default'
   }
 
   file { '/etc/ssl/certs/_.pih-emr.org.crt':
     ensure => present,
-    source => "puppet:///modules/mirebalais/etc/ssl/certs/_.pih-emr.org.crt"
+    source => 'puppet:///modules/mirebalais/etc/ssl/certs/_.pih-emr.org.crt'
   }
 
   file { '/etc/ssl/certs/gd_bundle.crt':
     ensure => present,
-    source => "puppet:///modules/mirebalais/etc/ssl/certs/gd_bundle.crt"
+    source => 'puppet:///modules/mirebalais/etc/ssl/certs/gd_bundle.crt'
   }
 
   exec { 'enable apache mods':

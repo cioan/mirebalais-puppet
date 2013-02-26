@@ -1,7 +1,7 @@
 class mirebalais::components::mysql_backup (
-    $backup_user = 'backup',
-    $backup_password = 'backup',
-    $tomcat = $mirebalais::tomcat
+    $backup_user = hiera('db_backup_user'),
+    $backup_password = hiera('db_backup_password'),
+    $tomcat = hiera('tomcat')
   ){
 
   database_user { "${backup_user}@localhost":

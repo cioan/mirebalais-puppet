@@ -1,15 +1,15 @@
 class mirebalais::components::tomcat (
-    $tomcat = $mirebalais::tomcat,
+    $tomcat = hiera('tomcat'),
   ){
 
   case $tomcat {
     tomcat6: {
       $version = '6.0.36'
-      $source = 'http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.tar.gz'
+      $source  = 'http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.tar.gz'
     }
     tomcat7: {
       $version = '7.0.35'
-      $source = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.35/bin/apache-tomcat-7.0.35.tar.gz'
+      $source  = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.35/bin/apache-tomcat-7.0.35.tar.gz'
     }
   }
 
@@ -17,22 +17,22 @@ class mirebalais::components::tomcat (
 
   include wget
 
-  package { "tar":
+  package { 'tar':
     ensure => installed,
   }
 
-  wget::fetch { "download-tomcat":
+  wget::fetch { 'download-tomcat':
     source      => $source,
-    destination => "/tmp/tomcat.tgz",
+    destination => '/tmp/tomcat.tgz',
     timeout     => 0,
     verbose     => false,
   }
 
-  exec { "tomcat-unzip":
-    cwd     => "/usr/local",
+  exec { 'tomcat-unzip':
+    cwd     => '/usr/local',
     command => "tar --group=${tomcat} --owner=${tomcat} -xzf /tmp/tomcat.tgz",
     unless  => "test -d /usr/local/apache-tomcat-${version}",
-    require => [ Package["tar"], Wget::Fetch["download-tomcat"], User[$tomcat] ],
+    require => [ Package['tar'], Wget::Fetch['download-tomcat'], User[$tomcat] ],
   } ~>
 
   file { "/usr/local/apache-tomcat-${version}":
@@ -40,7 +40,7 @@ class mirebalais::components::tomcat (
     owner   => $tomcat,
     group   => $tomcat,
     recurse => true,
-    require => Exec["tomcat-unzip"],
+    require => Exec['tomcat-unzip'],
   } ~>
 
   file { "/usr/local/${tomcat}":
@@ -48,22 +48,22 @@ class mirebalais::components::tomcat (
     target  => "/usr/local/apache-tomcat-${version}",
     owner   => $tomcat,
     group   => $tomcat,
-    require => Exec["tomcat-unzip"],
+    require => Exec['tomcat-unzip'],
   }
 
   file { "/etc/init.d/${tomcat}":
-    source  => "puppet:///modules/mirebalais/${tomcat}/init",
     ensure  => file,
+    source  => "puppet:///modules/mirebalais/${tomcat}/init",
   }
 
   file { "/etc/default/${tomcat}":
-    source  => "puppet:///modules/mirebalais/${tomcat}/default",
     ensure  => file,
+    source  => "puppet:///modules/mirebalais/${tomcat}/default",
   }
 
   file { "/etc/logrotate.d/${tomcat}":
-    source  => "puppet:///modules/mirebalais/${tomcat}/logrotate",
     ensure  => file,
+    source  => "puppet:///modules/mirebalais/${tomcat}/logrotate",
   }
 
   user { $tomcat:
@@ -81,7 +81,7 @@ class mirebalais::components::tomcat (
   }
 
   service { $tomcat:
-    enable => true,
+    enable  => true,
     require => [ Exec['tomcat-unzip'], File["/usr/local/${tomcat}"], File["/usr/local/apache-tomcat-${version}"] ],
   }
 

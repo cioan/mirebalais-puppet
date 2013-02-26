@@ -1,16 +1,16 @@
 class mirebalais::components::openmrs (
-    $default_db = $mirebalais::mysql_default_db,
-    $default_db_user = $mirebalais::mysql_default_db_user,
-    $default_db_password = $mirebalais::mysql_default_db_password,
-    $tomcat = $mirebalais::tomcat,
+    $default_db = hiera('mysql_default_db'),
+    $default_db_user = hiera('mysql_default_db_user'),
+    $default_db_password = hiera('mysql_default_db_password'),
+    $tomcat = hiera('tomcat'),
   ){
 
-  file { "/etc/apt/apt.conf.d/99auth":
-    ensure    => present,
-    owner     => root,
-    group     => root,
-    content   => "APT::Get::AllowUnauthenticated yes;",
-    mode      => 644;
+  file { '/etc/apt/apt.conf.d/99auth':
+    ensure  => present,
+    owner   => root,
+    group   => root,
+    content => 'APT::Get::AllowUnauthenticated yes;',
+    mode    => '644'
   }
 
   apt::source { 'mirebalais':
@@ -21,12 +21,12 @@ class mirebalais::components::openmrs (
     include_src => false,
   }
 
-  package { "mirebalais":
-    ensure => installed,
+  package { 'mirebalais':
+    ensure  => installed,
     require => [ Service[$tomcat], Apt::Source['mirebalais'], File['/etc/apt/apt.conf.d/99auth'] ],
   }
 
-  exec { "tomcat-stop":
+  exec { 'tomcat-stop':
     command => "service ${tomcat} stop",
     user    => 'root',
     require => Package['mirebalais'],
@@ -36,7 +36,7 @@ class mirebalais::components::openmrs (
 
     file { '/tmp/liquibase.jar':
       ensure => present,
-      source => "puppet:///modules/mirebalais/liquibase.jar"
+      source => 'puppet:///modules/mirebalais/liquibase.jar'
     }
 
     exec { 'migrate base schema':
@@ -66,7 +66,7 @@ class mirebalais::components::openmrs (
   }
 
   if $environment != 'production_slave' {
-    exec { "tomcat-start":
+    exec { 'tomcat-start':
       command => "service ${tomcat} start",
       user    => 'root',
       require => [ Exec['migrate update to latest'], Service['mcservice'], Exec['create mirth user'] ]
@@ -77,25 +77,25 @@ class mirebalais::components::openmrs (
     ensure  => directory,
     owner   => $tomcat,
     group   => $tomcat,
-    mode    => 755,
+    mode    => '755',
     require => User[$tomcat]
   }
 
   file { "/home/${tomcat}/.OpenMRS/mirebalais.properties":
-    content => template("mirebalais/OpenMRS/mirebalais.properties.erb"),
     ensure  => present,
+    content => template('mirebalais/OpenMRS/mirebalais.properties.erb'),
     owner   => $tomcat,
     group   => $tomcat,
-    mode    => 644,
+    mode    => '644',
     require => File["/home/${tomcat}/.OpenMRS"]
   }
 
   file { "/home/${tomcat}/.OpenMRS/mirebalais-runtime.properties":
-    content => template("mirebalais/OpenMRS/mirebalais-runtime.properties.erb"),
     ensure  => present,
+    content => template('mirebalais/OpenMRS/mirebalais-runtime.properties.erb'),
     owner   => $tomcat,
     group   => $tomcat,
-    mode    => 644,
+    mode    => '644',
     require => File["/home/${tomcat}/.OpenMRS"]
   }
 
