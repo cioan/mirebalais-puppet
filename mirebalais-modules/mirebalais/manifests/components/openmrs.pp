@@ -5,8 +5,6 @@ class mirebalais::components::openmrs (
     $tomcat = $mirebalais::tomcat,
   ){
 
-  include apt
-
   file { "/etc/apt/apt.conf.d/99auth":
     ensure    => present,
     owner     => root,

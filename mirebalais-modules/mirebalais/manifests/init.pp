@@ -33,7 +33,8 @@ class mirebalais(
   }
 
   class { 'apt':
-    always_apt_update    => true,
+    always_apt_update => true,
+    before            => Stage['main'],
   }
 
   file { '/etc/environment':
