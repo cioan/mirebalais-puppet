@@ -22,7 +22,7 @@ class mirebalais::components::openmrs (
   }
 
   package { 'mirebalais':
-    ensure  => installed,
+    ensure  => latest,
     require => [ Service[$tomcat], Apt::Source['mirebalais'], File['/etc/apt/apt.conf.d/99auth'] ],
   }
 
