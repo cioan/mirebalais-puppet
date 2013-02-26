@@ -56,10 +56,10 @@ class mirebalais::components::mirth (
     }
 
     exec { 'create mirth user':
-      cwd         => '/usr/local/mirthconnect',
-      command     => "echo 'user add ${mirth_user} ${mirth_password} mirth user PIH mogoodrich@pih.org' | /usr/local/mirthconnect/mccommand",
-      subscribe   => Exec['wait for mcservice'],
-      refreshonly => true
+      cwd     => '/usr/local/mirthconnect',
+      command => "echo 'user add ${mirth_user} ${mirth_password} mirth user PIH mogoodrich@pih.org' | /usr/local/mirthconnect/mccommand",
+      require => Exec['wait for mcservice'],
+      unless  => 'echo "user list" | /usr/local/mirthconnect/mccommand |grep mirth'
     }
 
     exec { 'stop all channels':
