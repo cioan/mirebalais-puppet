@@ -22,15 +22,7 @@ task :validate do
   fail unless $?.to_i == 0
 end
 
-desc 'Prepare modules (combine librarian-puppet with mirebalais-modules'
-task :prepare_modules do
-  `rm -rf modules`
-  `librarian-puppet install`
-  `cp -r mirebalais-modules/* modules`
-end
-
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  Rake::Task[:prepare_modules].invoke
   file_list = FileList['spec/**/*_spec.rb']
   # file_list.exclude 'spec/whatever/...'
   spec.pattern = file_list
