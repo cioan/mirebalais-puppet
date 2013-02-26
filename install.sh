@@ -16,6 +16,15 @@ bundle
 
 librarian-puppet install
 
-puppet apply -v --modulepath "modules/:./:$(puppet config print modulepath)" site.pp --environment $1
+echo "modulepath = /etc/puppet/modules:/etc/puppet/mirebalais-modules" > puppet.conf
+echo "environment = $1" >> puppet.conf
+
+puppet apply -v \
+  --detailed-exitcodes \
+  --logdest=console \
+  --logdest=syslog \
+  manifests/site.pp
+
+test $? -eq 0 -o $? -eq 2
 
 exit 0
