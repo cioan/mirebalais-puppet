@@ -128,9 +128,10 @@ class mirebalais::components::mirth (
     }
 
     exec { 'start all channels':
-      cwd     => '/usr/local/mirthconnect',
-      command => "echo 'channel start *' | /usr/local/mirthconnect/mccommand",
-      require => [ Exec['wait for mcservice'], Exec['deploy read channel'], Exec['deploy write channel 1'], Exec['deploy write channel 2'] ]
+      cwd         => '/usr/local/mirthconnect',
+      command     => "echo 'channel start *' | /usr/local/mirthconnect/mccommand",
+      subscribe   => [ Exec['deploy read channel'], Exec['deploy write channel 1'], Exec['deploy write channel 2'] ],
+      refreshonly => true
     }
   }
 
