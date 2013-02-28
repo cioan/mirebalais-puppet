@@ -1,7 +1,7 @@
 class mirebalais::components::openmrs (
-    $default_db = hiera('mysql_default_db'),
-    $default_db_user = hiera('mysql_default_db_user'),
-    $default_db_password = hiera('mysql_default_db_password'),
+    $openmrs_db = hiera('openmrs_db'),
+    $openmrs_db_user = decrypt(hiera('openmrs_db_user')),
+    $openmrs_db_password = decrypt(hiera('openmrs_db_password')),
     $tomcat = hiera('tomcat'),
   ){
 
@@ -35,15 +35,15 @@ class mirebalais::components::openmrs (
 
     exec { 'migrate base schema':
       cwd     =>  '/tmp/',
-      command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-schema-only.xml --username=${default_db_user} --password=${default_db_password} update",
+      command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${openmrs_db} --changeLogFile=liquibase-schema-only.xml --username=${openmrs_db_user} --password=${openmrs_db_password} update",
       user    => 'root',
-      unless  => "mysql -u${default_db_user} -p${default_db_password} ${default_db} -e 'desc patient'",
-      require => [ Package['mirebalais'], Database[$default_db] ],
+      unless  => "mysql -u${openmrs_db_user} -p${openmrs_db_password} ${openmrs_db} -e 'desc patient'",
+      require => [ Package['mirebalais'], Database[$openmrs_db] ],
     }
 
     exec { 'migrate core data':
       cwd         =>  '/tmp/',
-      command     => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-core-data.xml --username=${default_db_user} --password=${default_db_password} update",
+      command     => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${openmrs_db} --changeLogFile=liquibase-core-data.xml --username=${openmrs_db_user} --password=${openmrs_db_password} update",
       user        => 'root',
       subscribe   => Exec['migrate base schema'],
       refreshonly => true
@@ -51,7 +51,7 @@ class mirebalais::components::openmrs (
 
     exec { 'migrate update to latest':
       cwd         =>  '/tmp/',
-      command     => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${default_db} --changeLogFile=liquibase-update-to-latest.xml --username=${default_db_user} --password=${default_db_password} update",
+      command     => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${openmrs_db} --changeLogFile=liquibase-update-to-latest.xml --username=${openmrs_db_user} --password=${openmrs_db_password} update",
       user        => 'root',
       subscribe   => Exec['migrate core data'],
       refreshonly => true

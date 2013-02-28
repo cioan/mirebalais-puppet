@@ -24,8 +24,9 @@ GEM
     puppet (3.1.0)
       facter (~> 1.6)
       hiera (~> 1.0)
-    puppet-decrypt (0.0.1)
+    puppet-decrypt (0.0.2)
       encryptor
+      puppet
     puppet-lint (0.3.2)
     puppetlabs_spec_helper (0.4.1)
       mocha (>= 0.10.5)

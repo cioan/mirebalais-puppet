@@ -1,6 +1,6 @@
 class mirebalais::components::mysql_backup (
-    $backup_user = hiera('db_backup_user'),
-    $backup_password = hiera('db_backup_password'),
+    $backup_user = decrypt(hiera('backup_db_user')),
+    $backup_password = decrypt(hiera('backup_db_password')),
     $tomcat = hiera('tomcat')
   ){
 

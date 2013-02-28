@@ -1,14 +1,12 @@
 class mirebalais::components::mirth (
-    $root_password = hiera('mysql_root_password'),
-    $mirth_db = hiera('mysql_mirth_db'),
-    $mirth_db_user = hiera('mysql_mirth_db_user'),
-    $mirth_db_password = hiera('mysql_mirth_db_password'),
-    $mirth_user = hiera('mirth_user'),
-    $mirth_password = hiera('mirth_password'),
-    $default_db = hiera('mysql_default_db'),
-    $default_db_user = hiera('mysql_default_db_user'),
-    $default_db_password = hiera('mysql_default_db_password'),
-    $tomcat = hiera('tomcat'),
+    $mirth_db = hiera('mirth_db'),
+    $mirth_db_user = decrypt(hiera('mirth_db_user')),
+    $mirth_db_password = decrypt(hiera('mirth_db_password')),
+    $mirth_user = decrypt(hiera('mirth_user')),
+    $mirth_password = decrypt(hiera('mirth_password')),
+    $openmrs_db = hiera('openmrs_db'),
+    $openmrs_db_user = decrypt(hiera('openmrs_db_user')),
+    $openmrs_db_password = decrypt(hiera('openmrs_db_password')),
     $pacs_mirebalais_ip_address = hiera('pacs_mirebalais_ip_address'),
     $pacs_mirebalais_destination_port = hiera('pacs_mirebalais_destination_port'),
     $pacs_boston_ip_address = hiera('pacs_boston_ip_address'),
@@ -38,9 +36,9 @@ class mirebalais::components::mirth (
       require    => Service['mysqld'],
     }
 
-    database_grant { "${mirth_db_user}@localhost/${default_db}.pacsintegration_outbound_queue":
+    database_grant { "${mirth_db_user}@localhost/${openmrs_db}.pacsintegration_outbound_queue":
       privileges => ['all'],
-      require    => [ Service['mysqld'], Database[$default_db] ]
+      require    => [ Service['mysqld'], Database[$openmrs_db] ]
     }
 
     service { 'mcservice':

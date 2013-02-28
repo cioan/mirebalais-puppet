@@ -1,17 +1,17 @@
 ---
 mysql_server_id: 1
 mysql_root_password: 'foo'
-mysql_default_db: 'openmrs'
-mysql_default_db_user: 'openmrs'
-mysql_default_db_password: 'foo'
-db_replication_user: replication
-db_replication_password: replication
-db_backup_user: backup
-db_backup_password: backup
+openmrs_db: 'openmrs'
+openmrs_db_user: 'openmrs'
+openmrs_db_password: 'foo'
+replication_db_user: replication
+replication_db_password: replication
+backup_db_user: backup
+backup_db_password: backup
 tomcat: 'tomcat6'
-mysql_mirth_db: 'mirthdb'
-mysql_mirth_db_user: 'mirth'
-mysql_mirth_db_password: 'foo'
+mirth_db: 'mirthdb'
+mirth_db_user: 'mirth'
+mirth_db_password: 'foo'
 mirth_user: 'mirth'
 mirth_password: 'Mirth123'
 pacs_mirebalais_ip_address: 'pacstest.pih.org'

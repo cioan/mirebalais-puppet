@@ -1,7 +1,7 @@
 scheduler.password=
-connection.url=jdbc:mysql://localhost:3306/<%= @default_db %>?autoReconnect=true&sessionVariables=storage_engine=InnoDB&useUnicode=true&characterEncoding=UTF-8
-connection.username=<%= @default_db_user %>
-connection.password=<%= @default_db_password %>
+connection.url=jdbc:mysql://localhost:3306/<%= @openmrs_db %>?autoReconnect=true&sessionVariables=storage_engine=InnoDB&useUnicode=true&characterEncoding=UTF-8
+connection.username=<%= @openmrs_db_user %>
+connection.password=<%= @openmrs_db_password %>
 module.allow_web_admin=true
 scheduler.username=admin
 auto_update_database=false

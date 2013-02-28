@@ -1,10 +1,10 @@
 class mirebalais::components::mysql (
-    $root_password = hiera('mysql_root_password'),
-    $default_db = hiera('mysql_default_db'),
-    $default_db_user = hiera('mysql_default_db_user'),
-    $default_db_password = hiera('mysql_default_db_password'),
-    $replication_user = hiera('db_replication_user'),
-    $replication_password = hiera('db_replication_password'),
+    $root_password = decrypt(hiera('mysql_root_password')),
+    $openmrs_db = hiera('openmrs_db'),
+    $openmrs_db_user = decrypt(hiera('openmrs_db_user')),
+    $openmrs_db_password = decrypt(hiera('openmrs_db_password')),
+    $replication_user = decrypt(hiera('replication_db_user')),
+    $replication_password = decrypt(hiera('replication_db_password')),
     $mysql_server_id = hiera('mysql_server_id'),
   ){
 
@@ -32,24 +32,24 @@ class mirebalais::components::mysql (
   }
 
   if $environment != 'production_slave' {
-    database { $default_db :
+    database { $openmrs_db :
       ensure  => present,
       require => Service['mysqld'],
       charset => 'utf8',
     } ->
 
-    database_user { "${default_db_user}@localhost":
+    database_user { "${openmrs_db_user}@localhost":
       ensure        => present,
-      password_hash => mysql_password($default_db_password),
+      password_hash => mysql_password($openmrs_db_password),
       require       => Service['mysqld'],
     } ->
 
-    database_grant { "${default_db_user}@localhost/${default_db}":
+    database_grant { "${openmrs_db_user}@localhost/${openmrs_db}":
       privileges => ['all'],
       require    => Service['mysqld'],
     } ->
 
-    database_grant { "root@localhost/${default_db}":
+    database_grant { "root@localhost/${openmrs_db}":
       privileges => ['all'],
       require    => Service['mysqld'],
     }
