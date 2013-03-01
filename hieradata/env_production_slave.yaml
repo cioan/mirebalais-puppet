@@ -1,3 +1,12 @@
 ---
 mysql_server_id: 2
 mysql_master_ip: 192.168.1.202
+mysql_root_password: ENC[I813eH2Q9IHPZiqwu6DwaPeECPtMT7y41YwwqrTT1nI=]
+openmrs_db_password: ENC[spcYc6R/l+JkjPm5P//qw0LVQCdrD8zEfIEZr/AJ4rU=]
+replication_db_password: ENC[92IfbImaUmA3wqYSG5kWWwexEU8HqCrqQzSXAMKRPz0=]
+backup_db_password: ENC[vkWTaGabrix4EDOVYyoePsJhGlRZxdNy6y8QZ8r2H5I=]
+mirth_db_password: ENC[pAmIyUYupu8RnrQvgH+XCHXR8DEbwO1UZYBT/0q0gIE=]
+mirth_password: ENC[xTn2ILoq1ik8jxllAn7pHz5qD+0apCTmRRtCZRMcjfk=]
+pacs_mirebalais_ip_address: pacstest.pih.org
+#pacsboston.pih-emr.org
+pacs_boston_ip_address: 64.196.24.13
