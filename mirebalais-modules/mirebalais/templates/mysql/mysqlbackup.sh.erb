@@ -3,8 +3,8 @@
 # Mirebalais Backup Script
 #
 
-USER=<%= @backup_user %>
-PASS=<%= @backup_password %>
+USER='<%= @backup_user %>'
+PASS='<%= @backup_password %>'
 DIR=/home/<%= @tomcat %>/backups
 
 if [ -n "$1" ]

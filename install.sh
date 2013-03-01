@@ -28,7 +28,7 @@ then
 
   echo "Please make sure you have copied this ssh public key to the backup server so that database backups can be uploaded there:"
   cat ~/.ssh/id_dsa.pub
-  read
+  read -p "Press a key to continue"
 fi
 
 apt-get install -y rubygems

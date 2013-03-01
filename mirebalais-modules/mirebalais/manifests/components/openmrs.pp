@@ -2,7 +2,11 @@ class mirebalais::components::openmrs (
     $openmrs_db = hiera('openmrs_db'),
     $openmrs_db_user = decrypt(hiera('openmrs_db_user')),
     $openmrs_db_password = decrypt(hiera('openmrs_db_password')),
+    $mirebalais_release = hiera('mirebalais_release'),
     $tomcat = hiera('tomcat'),
+    $remote_zlidentifier_url = hiera('remote_zlidentifier_url'),
+    $remote_zlidentifier_username = decrypt(hiera('remote_zlidentifier_username')),
+    $remote_zlidentifier_password = decrypt(hiera('remote_zlidentifier_password')),
   ){
 
   file { '/etc/apt/apt.conf.d/99auth':
@@ -16,7 +20,7 @@ class mirebalais::components::openmrs (
   apt::source { 'mirebalais':
     ensure      => present,
     location    => 'http://bamboo.pih-emr.org/mirebalais-repo',
-    release     => 'unstable/',
+    release     => $mirebalais_release,
     repos       => '',
     include_src => false,
   }
