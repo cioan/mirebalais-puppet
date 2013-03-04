@@ -4,6 +4,8 @@ mod 'puppetlabs/apt'
 mod 'puppetlabs/mysql'
 mod 'puppetlabs/stdlib'
 mod 'maestrodev/wget'
+mod 'puppet-logstash',
+  :git => 'https://github.com/electrical/puppet-logstash'
 
 # mod 'puppetlabs/stdlib'
 
