@@ -8,9 +8,8 @@ replication_db_password: ENC[92IfbImaUmA3wqYSG5kWWwexEU8HqCrqQzSXAMKRPz0=]
 backup_db_password: ENC[vkWTaGabrix4EDOVYyoePsJhGlRZxdNy6y8QZ8r2H5I=]
 mirth_db_password: ENC[pAmIyUYupu8RnrQvgH+XCHXR8DEbwO1UZYBT/0q0gIE=]
 mirth_password: ENC[xTn2ILoq1ik8jxllAn7pHz5qD+0apCTmRRtCZRMcjfk=]
-pacs_mirebalais_ip_address: pacstest.pih.org
-pacs_boston_ip_address: 64.196.24.13
-#pacsboston.pih-emr.org
+pacs_mirebalais_ip_address: 192.168.7.38
+pacs_boston_ip_address: pacsboston.pih-emr.org
 remote_zlidentifier_url: 'http://bamboo.pih-emr.org:8080/mirebalais/module/idgen/exportIdentifiers.form?source=4&comment=MirebalaisDemo'
 #https://zanmi.pih-emr.org/openmrs/module/idgen/exportIdentifiers.form?source=1&comment=Mirebalais
 remote_zlidentifier_username: testidgen
