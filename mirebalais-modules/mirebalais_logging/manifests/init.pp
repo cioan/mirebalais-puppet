@@ -7,44 +7,44 @@ class mirebalais_logging {
 
   logstash::input::file { 'apache-access':
     type => 'apache-access',
-    path => '/var/log/apache2/ssl_access.log'
+    path => [ '/var/log/apache2/ssl_access.log' ]
   }
 
   logstash::input::file { 'apache-error':
     type => 'apache-error',
-    path => '/var/log/apache2/error.log'
+    path => [ '/var/log/apache2/error.log' ]
   }
 
   logstash::input::file { 'tomcat':
     type => 'tomcat',
-    path => '/usr/local/tomcat6/logs/catalina.out'
+    path => [ '/usr/local/tomcat6/logs/catalina.out' ]
   }
 
   logstash::filter::grok { 'apache-combined-log':
     type    => 'apache-access',
-    pattern => '%{COMBINEDAPACHELOG}'
+    pattern => [ '%{COMBINEDAPACHELOG}' ]
   }
 
   logstash::filter::grep { 'tomcat-error-tag':
-    add_tag => 'error',
+    add_tag => [ 'error' ],
     drop    => false,
-    match   => ['@message', 'ERROR'],
+    match   => { '@message' => 'ERROR' },
     type    => 'tomcat'
   }
 
-  logstash::filter::miltiline { 'tomcat-exception':
+  logstash::filter::multiline { 'tomcat-exception':
     pattern => '^[^\s]+Exception',
     type    => 'tomcat',
     what    => 'previous'
   }
 
-  logstash::filter::miltiline { 'tomcat-stacktrace':
+  logstash::filter::multiline { 'tomcat-stacktrace':
     pattern => '^\t',
     type    => 'tomcat',
     what    => 'previous'
   }
 
-  logstash::filter::miltiline { 'tomcat-stacktrace-continued':
+  logstash::filter::multiline { 'tomcat-stacktrace-continued':
     pattern => '^Caused by',
     type    => 'tomcat',
     what    => 'previous'

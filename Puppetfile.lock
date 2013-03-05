@@ -13,12 +13,12 @@ GIT
   ref: master
   sha: b7bcf3b9d084a6f5efae526474c259a8fc755d63
   specs:
-    puppet-logstash (0.0.5)
+    logstash (0.0.5)
       puppetlabs/stdlib (>= 3.0.0)
 
 DEPENDENCIES
+  logstash (>= 0)
   maestrodev/wget (>= 0)
-  puppet-logstash (>= 0)
   puppetlabs/apt (>= 0)
   puppetlabs/mysql (>= 0)
   puppetlabs/stdlib (>= 0)
