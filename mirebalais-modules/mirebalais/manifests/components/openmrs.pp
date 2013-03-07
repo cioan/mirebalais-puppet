@@ -32,13 +32,13 @@ class mirebalais::components::openmrs (
 
   if $environment != 'production_slave' {
 
-    file { '/tmp/liquibase.jar':
+    file { '/usr/local/liquibase.jar':
       ensure => present,
       source => 'puppet:///modules/mirebalais/liquibase.jar'
     }
 
     exec { 'migrate base schema':
-      cwd     =>  '/tmp/',
+      cwd     =>  '/usr/local/',
       command => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${openmrs_db} --changeLogFile=liquibase-schema-only.xml --username=${openmrs_db_user} --password=${openmrs_db_password} update",
       user    => 'root',
       unless  => "mysql -u${openmrs_db_user} -p${openmrs_db_password} ${openmrs_db} -e 'desc patient'",
@@ -46,7 +46,7 @@ class mirebalais::components::openmrs (
     }
 
     exec { 'migrate core data':
-      cwd         =>  '/tmp/',
+      cwd         =>  '/usr/local/',
       command     => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${openmrs_db} --changeLogFile=liquibase-core-data.xml --username=${openmrs_db_user} --password=${openmrs_db_password} update",
       user        => 'root',
       subscribe   => Exec['migrate base schema'],
@@ -54,7 +54,7 @@ class mirebalais::components::openmrs (
     }
 
     exec { 'migrate update to latest':
-      cwd         =>  '/tmp/',
+      cwd         =>  '/usr/local/',
       command     => "java -Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -jar liquibase.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/${tomcat}/webapps/mirebalais.war --url=jdbc:mysql://localhost:3306/${openmrs_db} --changeLogFile=liquibase-update-to-latest.xml --username=${openmrs_db_user} --password=${openmrs_db_password} update",
       user        => 'root',
       subscribe   => Exec['migrate core data'],
