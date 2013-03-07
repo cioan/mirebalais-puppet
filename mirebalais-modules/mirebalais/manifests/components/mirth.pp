@@ -64,28 +64,31 @@ class mirebalais::components::mirth (
       cwd         => '/usr/local/mirthconnect',
       command     => "echo 'channel stop *' | /usr/local/mirthconnect/mccommand",
       require     => Exec['wait for mcservice'],
-      subscribe   => [ File['/tmp/readHL7FromOpenmrsDatabaseChannel.xml'], File['/tmp/sendHL7ToPacsChannelMirebalais.xml'], File['/tmp/sendHL7ToPacsChannelBoston.xml'] ],
+      subscribe   => [ File['/usr/local/mirthconnect/readHL7FromOpenmrsDatabaseChannel.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsChannelMirebalais.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsChannelBoston.xml'] ],
       refreshonly => true
     }
 
-    file { '/tmp/readHL7FromOpenmrsDatabaseChannel.xml':
+    file { '/usr/local/mirthconnect/readHL7FromOpenmrsDatabaseChannel.xml':
       ensure  => present,
       content => template('mirebalais/mirth/readHL7FromOpenmrsDatabaseChannel.xml.erb'),
+      require => File['/usr/local/mirthconnect']
     }
 
-    file { '/tmp/sendHL7ToPacsChannelMirebalais.xml':
+    file { '/usr/local/mirthconnect/sendHL7ToPacsChannelMirebalais.xml':
       ensure  => present,
       content => template('mirebalais/mirth/sendHL7ToPacsChannelMirebalais.xml.erb'),
+      require => File['/usr/local/mirthconnect']
     }
 
-    file { '/tmp/sendHL7ToPacsChannelBoston.xml':
+    file { '/usr/local/mirthconnect/sendHL7ToPacsChannelBoston.xml':
       ensure  => present,
       content => template('mirebalais/mirth/sendHL7ToPacsChannelBoston.xml.erb'),
+      require => File['/usr/local/mirthconnect']
     }
 
     exec { 'import read channel':
       cwd         => '/usr/local/mirthconnect',
-      command     => "echo 'import /tmp/readHL7FromOpenmrsDatabaseChannel.xml force' | /usr/local/mirthconnect/mccommand",
+      command     => "echo 'import /usr/local/mirthconnect/readHL7FromOpenmrsDatabaseChannel.xml force' | /usr/local/mirthconnect/mccommand",
       subscribe   => Exec['stop all channels'],
       refreshonly => true
     }
@@ -99,7 +102,7 @@ class mirebalais::components::mirth (
 
     exec { 'import write channel 1':
       cwd         => '/usr/local/mirthconnect',
-      command     => "echo 'import /tmp/sendHL7ToPacsChannelMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
+      command     => "echo 'import /usr/local/mirthconnect/sendHL7ToPacsChannelMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
       subscribe   => Exec['stop all channels'],
       refreshonly => true
     }
@@ -113,7 +116,7 @@ class mirebalais::components::mirth (
 
     exec { 'import write channel 2':
       cwd         => '/usr/local/mirthconnect',
-      command     => "echo 'import /tmp/sendHL7ToPacsChannelBoston.xml force' | /usr/local/mirthconnect/mccommand",
+      command     => "echo 'import /usr/local/mirthconnect/sendHL7ToPacsChannelBoston.xml force' | /usr/local/mirthconnect/mccommand",
       subscribe   => Exec['stop all channels'],
       refreshonly => true
     }
@@ -141,14 +144,14 @@ class mirebalais::components::mirth (
 
   wget::fetch { 'download-mirth':
     source      => 'http://downloads.mirthcorp.com/connect/2.2.1.5861.b1248/mirthconnect-2.2.1.5861.b1248-unix.tar.gz',
-    destination => '/tmp/mirth.tgz',
+    destination => '/usr/local/mirth.tgz',
     timeout     => 0,
     verbose     => false,
   } ~>
 
   exec { 'mirth-unzip':
     cwd     => '/usr/local',
-    command => 'tar -C mirthconnect --strip-components=1 -xzf /tmp/mirth.tgz',
+    command => 'tar -C mirthconnect --strip-components=1 -xzf /usr/local/mirth.tgz',
     unless  => 'test -f /usr/local/mirthconnect/mcservice',
     require => [ Package['tar'], Wget::Fetch['download-mirth'], File['/usr/local/mirthconnect'] ],
   }
