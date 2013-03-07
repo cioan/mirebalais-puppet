@@ -56,7 +56,7 @@ class mirebalais_logging {
 
   class { 'logstash':
     provider     => 'custom',
-    jarfile      => 'puppet:///modules/mirebalais_logging/logstash-1.1.0-monolithic.jar',
+    jarfile      => 'puppet:///modules/mirebalais_logging/logstash-1.1.9-monolithic.jar',
     installpath  => '/usr/local/logstash',
     defaultsfile => 'puppet:///modules/mirebalais_logging/logstash_default'
   }
