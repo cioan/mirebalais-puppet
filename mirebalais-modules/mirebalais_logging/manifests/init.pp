@@ -1,4 +1,7 @@
-class mirebalais_logging {
+class mirebalais_logging (
+  $smtp_username = decrypt(hiera('smtp_username')),
+  $smtp_password = decrypt(hiera('smtp_password')),
+  ){
 
   logstash::input::file { 'syslog':
     type => 'syslog',
@@ -32,6 +35,13 @@ class mirebalais_logging {
     type    => 'tomcat'
   }
 
+  logstash::filter::grep { 'tomcat-warn-tag':
+    add_tag => [ 'warning' ],
+    drop    => false,
+    match   => { '@message' => 'WARN' },
+    type    => 'tomcat'
+  }
+
   logstash::filter::multiline { 'tomcat-exception':
     pattern => '^[^\s]+Exception',
     type    => 'tomcat',
@@ -52,6 +62,20 @@ class mirebalais_logging {
 
   logstash::output::elasticsearch { 'elasticsearch':
     embedded => true
+  }
+
+  logstash::output::email { 'error_email':
+    to      => 'mirebalais@thoughtworks.com',
+    options => {'address'              => 'smtp.gmail.com',
+                'port'                 => '587',
+                'userName'             => $smtp_username,
+                'password'             => $smtp_password,
+                'enable_starttls_auto' => true,
+                'authentication'       => 'plain'},
+    tags    => ['error', 'warning'],
+    type    => 'tomcat',
+    subject => 'Found ERROR or WARN on %{@source_host}',
+    body    => 'Here is the event line %{@message}'
   }
 
   class { 'logstash':
