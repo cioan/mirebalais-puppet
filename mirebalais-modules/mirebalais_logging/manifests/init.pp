@@ -3,82 +3,10 @@ class mirebalais_logging (
   $smtp_password = decrypt(hiera('smtp_password')),
   ){
 
-  logstash::input::file { 'syslog':
-    type => 'syslog',
-    path => [ '/var/log/*.log', '/var/log/messages', '/var/log/syslog' ]
-  }
-
-  logstash::input::file { 'apache-access':
-    type => 'apache-access',
-    path => [ '/var/log/apache2/ssl_access.log' ]
-  }
-
-  logstash::input::file { 'apache-error':
-    type => 'apache-error',
-    path => [ '/var/log/apache2/error.log' ]
-  }
-
-  logstash::input::file { 'tomcat':
-    type => 'tomcat',
-    path => [ '/usr/local/tomcat6/logs/catalina.out' ]
-  }
-
-  logstash::filter::grok { 'apache-combined-log':
-    type    => 'apache-access',
-    pattern => [ '%{COMBINEDAPACHELOG}' ]
-  }
-
-  logstash::filter::grep { 'tomcat-error-tag':
-    drop      => false,
-    add_tag   => [ 'error' ],
-    add_field => { 'event_type' => 'ERROR' },
-    match     => { '@message' => 'ERROR' },
-    type      => 'tomcat'
-  }
-
-  logstash::filter::grep { 'tomcat-warn-tag':
-    drop      => false,
-    add_tag   => [ 'warning' ],
-    add_field => { 'event_type' => 'WARN' },
-    match     => { '@message' => 'WARN' },
-    type      => 'tomcat'
-  }
-
-  logstash::filter::multiline { 'tomcat-exception':
-    pattern => '^[^\s]+Exception',
-    type    => 'tomcat',
-    what    => 'previous'
-  }
-
-  logstash::filter::multiline { 'tomcat-stacktrace':
-    pattern => '^\t',
-    type    => 'tomcat',
-    what    => 'previous'
-  }
-
-  logstash::filter::multiline { 'tomcat-stacktrace-continued':
-    pattern => '^Caused by',
-    type    => 'tomcat',
-    what    => 'previous'
-  }
-
-  logstash::output::elasticsearch { 'elasticsearch':
-    embedded => true
-  }
-
-  logstash::output::email { 'error_email':
-    to      => 'mirebalais@thoughtworks.com',
-    match   => {'error' => '@event_type,ERROR, , or, @event_type,WARN'},
-    options => {'address'              => 'smtp.gmail.com',
-                'port'                 => '587',
-                'userName'             => $smtp_username,
-                'password'             => $smtp_password,
-                'enable_starttls_auto' => true,
-                'authentication'       => 'plain'},
-    tags    => ['error', 'warning'],
-    type    => 'tomcat',
-    subject => 'Found ERROR or WARN on %{@source_host}',
-    body    => 'Here is the event line %{@message}'
+  file { '/etc/logstash/conf.d/logstash.conf':
+    ensure  => file,
+    content => template('mirebalais_logging/logstash.conf.erb'),
+    require => File['/etc/logstash/conf.d']
   }
 
   class { 'logstash':
