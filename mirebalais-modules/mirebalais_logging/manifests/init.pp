@@ -29,17 +29,17 @@ class mirebalais_logging (
   }
 
   logstash::filter::grep { 'tomcat-error-tag':
+    drop      => false,
     add_tag   => [ 'error' ],
     add_field => { 'event_type' => 'ERROR' },
-    drop      => 'false',
     match     => { '@message' => 'ERROR' },
     type      => 'tomcat'
   }
 
   logstash::filter::grep { 'tomcat-warn-tag':
+    drop      => false,
     add_tag   => [ 'warning' ],
     add_field => { 'event_type' => 'WARN' },
-    drop      => 'false',
     match     => { '@message' => 'WARN' },
     type      => 'tomcat'
   }
