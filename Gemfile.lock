@@ -8,6 +8,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    daemons (1.1.9)
     diff-lcs (1.2.1)
     encryptor (1.1.3)
     facter (1.6.17)
@@ -24,9 +25,8 @@ GEM
     puppet (3.1.0)
       facter (~> 1.6)
       hiera (~> 1.0)
-    puppet-decrypt (0.0.2)
+    puppet-decrypt (0.0.4)
       encryptor
-      puppet
     puppet-lint (0.3.2)
     puppetlabs_spec_helper (0.4.1)
       mocha (>= 0.10.5)
@@ -48,9 +48,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  daemons
   librarian-puppet
   puppet (= 3.1.0)
-  puppet-decrypt
+  puppet-decrypt (~> 0.0.4)
   puppet-lint
   puppetlabs_spec_helper
   rspec-puppet!

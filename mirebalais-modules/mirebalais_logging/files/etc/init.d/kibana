@@ -15,11 +15,6 @@
 # Description: Kibana is a webfront end for Elasticsearch
 ### END INIT INFO
 
-
-# Source function library.
-. /etc/rc.d/init.d/functions
-
-
 DAEMON='/usr/local/kibana/kibana-daemon.rb'
 
 start() {
@@ -29,9 +24,9 @@ start() {
         RETVAL=$?
 
         if [ $RETVAL = 0 ]; then
-            echo_success
+            echo "Success"
         else
-            echo_failure
+            echo "Failure"
         fi
 
         echo
@@ -43,9 +38,9 @@ stop() {
         ruby $DAEMON stop
         RETVAL=$?
         if [ $RETVAL = 0 ]; then
-            echo_success
+            echo "Success"
         else
-            echo_failure
+            echo "Failure"
         fi
 
         rm -rf /usr/local/kibana/tmp/kibana.rb.pid
