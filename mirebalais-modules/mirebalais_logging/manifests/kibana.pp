@@ -2,6 +2,13 @@ class mirebalais_logging::kibana(
   $mysql_master_ip = hiera('mysql_master_ip')
   ) {
 
+  exec { 'kibana-bundle':
+    cwd     => '/usr/local/kibana',
+    command => 'bundle',
+    unless  => 'bundle show sinatra',
+    require => Exec['kibana-unzip']
+  }
+
   file { 'kibana_config':
     ensure  => 'present',
     path    => '/usr/local/kibana/KibanaConfig.rb',
