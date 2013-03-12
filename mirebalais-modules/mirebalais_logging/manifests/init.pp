@@ -15,4 +15,8 @@ class mirebalais_logging (
     installpath  => '/usr/local/logstash',
     defaultsfile => 'puppet:///modules/mirebalais_logging/logstash_default'
   }
+
+  if $environment == 'production_slave' {
+    include mirebalais_logging::kibana
+  }
 }
