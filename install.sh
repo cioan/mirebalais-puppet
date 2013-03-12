@@ -31,6 +31,7 @@ then
   read -p "Press a key to continue"
 fi
 
+apt-get update
 apt-get install -y rubygems
 
 gem install bundler --no-ri --no-rdoc
