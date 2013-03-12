@@ -1,0 +1,16 @@
+/var/log/apache2/ssl_access.log  {
+  daily
+  rotate 7
+  size 10M
+  copytruncate
+  compress
+  notifempty
+  missingok
+}
+
+/var/log/apache2/*.log {
+  daily
+  rotate 7
+  missingok
+}
+

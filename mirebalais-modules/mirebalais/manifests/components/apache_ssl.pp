@@ -10,6 +10,11 @@ class mirebalais::components::apache_ssl (
     ensure => installed,
   }
 
+  file { '/etc/logrotate.d/apache2':
+    ensure  => file,
+    source  => 'puppet:///modules/mirebalais/apache2/logrotate',
+  }
+
   file { '/etc/apache2/workers.properties':
     ensure  => present,
     content => template('mirebalais/apache2/workers.properties.erb'),
