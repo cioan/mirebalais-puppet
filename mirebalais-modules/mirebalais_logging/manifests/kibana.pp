@@ -23,7 +23,7 @@ class mirebalais_logging::kibana(
   service { 'kibana':
     ensure  => running,
     enable  => true,
-    require => [ File['kibana_config'], File['/etc/init.d/kibana'] ]
+    require => [ Exec['kibana-bundle'], File['kibana_config'], File['/etc/init.d/kibana'] ]
   }
 
   file { '/etc/init.d/kibana':
