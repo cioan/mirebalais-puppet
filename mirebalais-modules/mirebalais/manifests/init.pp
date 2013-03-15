@@ -7,6 +7,10 @@ class mirebalais {
 
   if $environment != 'test' {
     include mirebalais::components::apache_ssl
+
+    file { '/etc/ntp.conf':
+      source => 'puppet:///modules/mirebalais/etc/ntp.conf'
+    }
   }
 
   if $environment == 'production' {
@@ -22,5 +26,4 @@ class mirebalais {
   file { '/etc/environment':
     source => 'puppet:///modules/mirebalais/etc/environment'
   }
-
 }
