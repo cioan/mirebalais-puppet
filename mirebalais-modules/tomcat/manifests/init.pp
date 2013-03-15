@@ -1,5 +1,6 @@
-class mirebalais::components::tomcat (
+class tomcat (
     $tomcat = hiera('tomcat'),
+    $services_enable = hiera('services_enable')
   ){
 
   case $tomcat {
@@ -11,14 +12,6 @@ class mirebalais::components::tomcat (
       $version = '7.0.35'
       $source  = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.35/bin/apache-tomcat-7.0.35.tar.gz'
     }
-  }
-
-  notice("installing tomcat version: ${version}")
-
-  include wget
-
-  package { 'tar':
-    ensure => installed,
   }
 
   wget::fetch { 'download-tomcat':
@@ -33,7 +26,7 @@ class mirebalais::components::tomcat (
     command => "tar --group=${tomcat} --owner=${tomcat} -xzf /usr/local/tomcat-${version}.tgz",
     unless  => "test -d /usr/local/apache-tomcat-${version}",
     require => [ Package['tar'], Wget::Fetch['download-tomcat'], User[$tomcat] ],
-  } ~>
+  }
 
   file { "/usr/local/apache-tomcat-${version}":
     ensure  => directory,
@@ -41,7 +34,7 @@ class mirebalais::components::tomcat (
     group   => $tomcat,
     recurse => true,
     require => Exec['tomcat-unzip'],
-  } ~>
+  }
 
   file { "/usr/local/${tomcat}":
     ensure  => 'link',
@@ -53,17 +46,17 @@ class mirebalais::components::tomcat (
 
   file { "/etc/init.d/${tomcat}":
     ensure  => file,
-    source  => "puppet:///modules/mirebalais/${tomcat}/init",
+    source  => "puppet:///modules/tomcat/${version}/init",
   }
 
   file { "/etc/default/${tomcat}":
     ensure  => file,
-    source  => "puppet:///modules/mirebalais/${tomcat}/default",
+    source  => "puppet:///modules/tomcat/${version}/default",
   }
 
   file { "/etc/logrotate.d/${tomcat}":
     ensure  => file,
-    source  => "puppet:///modules/mirebalais/${tomcat}/logrotate",
+    source  => "puppet:///modules/tomcat/${version}/logrotate",
   }
 
   user { $tomcat:
@@ -76,13 +69,12 @@ class mirebalais::components::tomcat (
     ensure  => directory,
     owner   => $tomcat,
     group   => $tomcat,
-    mode    => 755,
+    mode    => '0755',
     require => User[$tomcat]
   }
 
   service { $tomcat:
-    enable  => true,
-    require => [ Exec['tomcat-unzip'], File["/usr/local/${tomcat}"], File["/usr/local/apache-tomcat-${version}"] ],
+    enable  => $services_enable,
+    require => [ Exec['tomcat-unzip'], File["/usr/local/${tomcat}"], File["/etc/init.d/${tomcat}"] ],
   }
-
 }

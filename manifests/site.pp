@@ -1,10 +1,11 @@
 Exec { path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ] }
 
-class { 'apt':
-  always_apt_update => true,
-}
-
 node default {
+  class { 'apt':
+    always_apt_update => true,
+  }
+
+  include wget
   include java
   include mysql_setup
   include mirth
