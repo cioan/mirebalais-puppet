@@ -21,6 +21,7 @@ node /^((?!replication).*)$/ inherits default {
 }
 
 node 'emr.hum.ht' inherits default {
+  include ntpdate
   include apache2
   include logging
   include mysql_setup::db_setup
@@ -31,8 +32,13 @@ node 'emr.hum.ht' inherits default {
 }
 
 node 'emrreplicaiton.hum.ht' inherits default {
+  include ntpdate
   include apache2
   include logging
   include logging::hiera
   include mysql_setup::slave
+}
+
+node 'emrtest.hum.ht' inherits default {
+  include ntpdate
 }
