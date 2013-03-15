@@ -7,6 +7,7 @@ node default {
 
   include wget
   include java
+  include mysql
   include mysql_setup
   include mirth
   include tomcat
@@ -16,6 +17,7 @@ node default {
 node /^((?!replication).*)$/ inherits default {
   include mysql_setup::db_setup
   include mirth::channel_setup
+  include openmrs::initial::setup
 }
 
 node 'emr.hum.ht' inherits default {
@@ -25,6 +27,7 @@ node 'emr.hum.ht' inherits default {
   include mysql_setup::backup
   include mysql_setup::replication
   include mirth::channel_setup
+  include openmrs::initial::setup
 }
 
 node 'emrreplicaiton.hum.ht' inherits default {

@@ -2,8 +2,6 @@ class mysql_setup (
     $root_password = decrypt(hiera('mysql_root_password')),
 ){
 
-  include mysql
-
   class { 'mysql::server':
     manage_service => false,
     config_hash    => {
