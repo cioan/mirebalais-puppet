@@ -14,13 +14,11 @@ class openmrs::initial_setup(
   openmrs::liquibase_migrate { 'migrate core data':
     dataset     => 'liquibase-core-data.xml',
     subscribe   => Openmrs::Liquibase_migrate['migrate base schema'],
-    refreshonly => true
   }
 
   openmrs::liquibase_migrate { 'migrate update to latest':
     dataset     => 'liquibase-update-to-latest.xml',
     subscribe   => Openmrs::Liquibase_migrate['migrate core data'],
-    refreshonly => true,
     notify      => Service[$tomcat]
   }
 }
