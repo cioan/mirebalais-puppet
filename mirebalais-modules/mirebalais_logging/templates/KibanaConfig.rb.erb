@@ -17,7 +17,7 @@ module KibanaConfig
 
   # The adress ip Kibana should listen on. Comment out or set to
   # 0.0.0.0 to listen on all interfaces.
-  KibanaHost = '127.0.0.1'
+  KibanaHost = '0.0.0.0'
 
   # The record type as defined in your logstash configuration.
   # Seperate multiple types with a comma, no spaces. Leave blank
