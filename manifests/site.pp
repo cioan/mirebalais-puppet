@@ -18,7 +18,7 @@ node /^((?!replication).*)$/ inherits default {
 }
 
 node 'emr.hum.ht' inherits default {
-  include apache_ssl
+  include apache2
   include logging
   include mysql_setup::db_setup
   include mysql_setup::backup
@@ -27,7 +27,7 @@ node 'emr.hum.ht' inherits default {
 }
 
 node 'emrreplicaiton.hum.ht' inherits default {
-  include apache_ssl
+  include apache2
   include logging
   include logging::hiera
   include mysql_setup::slave
