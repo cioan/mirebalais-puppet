@@ -1,4 +1,4 @@
-class mirebalais_logging::kibana(
+class logging::kibana(
   $mysql_master_ip = hiera('mysql_master_ip')
   ) {
 

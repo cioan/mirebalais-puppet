@@ -1,4 +1,4 @@
-class mirebalais_logging (
+class logging (
   $smtp_username = decrypt(hiera('smtp_username')),
   $smtp_password = decrypt(hiera('smtp_password')),
   ){
