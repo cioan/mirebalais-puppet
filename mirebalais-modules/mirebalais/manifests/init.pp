@@ -15,12 +15,5 @@ class mirebalais {
 
   include mirebalais::components::mysql
 
-  class { 'apt':
-    always_apt_update => true,
-  }
-
-  file { '/etc/environment':
-    source => 'puppet:///modules/mirebalais/etc/environment'
-  }
-
+  
 }
