@@ -15,7 +15,7 @@ class logging::kibana(
     mode    => '0644',
     owner   => 'root',
     group   => 'root',
-    content => template('mirebalais_logging/KibanaConfig.rb.erb'),
+    content => template('logging/KibanaConfig.rb.erb'),
     notify  => Service['kibana'],
     require => [ File['/usr/local/kibana'], Exec['kibana-unzip'] ]
   }
@@ -31,7 +31,7 @@ class logging::kibana(
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
-    source => 'puppet:///modules/mirebalais_logging/etc/init.d/kibana'
+    source => 'puppet:///modules/logging/etc/init.d/kibana'
   }
 
   file {'/usr/local/kibana':
@@ -53,5 +53,4 @@ class logging::kibana(
     unless  => 'test -f /usr/local/kibana/kibana.rb',
     require => [ Package['tar'], Wget::Fetch['download-kibana'], File['/usr/local/kibana'] ],
   }
-
 }
