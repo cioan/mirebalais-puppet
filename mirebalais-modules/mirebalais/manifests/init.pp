@@ -11,6 +11,12 @@ class mirebalais {
     file { '/etc/ntp.conf':
       source => 'puppet:///modules/mirebalais/etc/ntp.conf'
     }
+
+    exec { 'update time':
+      command     => 'ntpdate-debian',
+      subscribe   => File['/etc/ntp.conf'],
+      refreshonly => true
+    }
   }
 
   if $environment == 'production' {
