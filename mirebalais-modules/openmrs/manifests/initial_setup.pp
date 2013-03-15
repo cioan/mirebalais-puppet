@@ -17,7 +17,7 @@ class openmrs::initial_setup(
     refreshonly => true
   }
 
-  openmrs::liquibase_migrate { 'migrate core data':
+  openmrs::liquibase_migrate { 'migrate update to latest':
     dataset     => 'liquibase-update-to-latest.xml',
     subscribe   => Openmrs::Liquibase_migrate['migrate core data'],
     refreshonly => true,
