@@ -6,7 +6,8 @@ class mirebalais_logging (
   file { '/etc/logstash/conf.d/logstash.conf':
     ensure  => file,
     content => template('mirebalais_logging/logstash.conf.erb'),
-    require => File['/etc/logstash/conf.d']
+    require => File['/etc/logstash/conf.d'],
+    notify  => Service['logstash']
   }
 
   class { 'logstash':
