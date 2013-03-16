@@ -26,4 +26,11 @@ class openmrs::initial_setup(
     subscribe   => Openmrs::Liquibase_migrate['migrate core data'],
     notify      => Service[$tomcat]
   }
+
+  exec { 'tomcat-start':
+    command     => "service ${tomcat} start",
+    user        => 'root',
+    subscribe   => Openmrs::Liquibase_migrate['migrate update to latest'],
+    refreshonly => true
+  }
 }
