@@ -1,5 +1,6 @@
 class mysql_setup (
     $root_password = decrypt(hiera('mysql_root_password')),
+    $mysql_server_id = hiera('mysql_server_id'),
 ){
 
   class { 'mysql::server':

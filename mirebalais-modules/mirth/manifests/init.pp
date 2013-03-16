@@ -1,5 +1,7 @@
 class mirth(
   $mirth_db = hiera('mirth_db'),
+  $mirth_db_user = decrypt(hiera('mirth_db_user')),
+  $mirth_db_password = decrypt(hiera('mirth_db_password')),
   $services_ensure = hiera('services_ensure'),
   $services_enable = hiera('services_enable')
 ){

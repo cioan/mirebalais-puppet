@@ -1,6 +1,13 @@
 class mirth::channel_setup (
   $mirth_user = decrypt(hiera('mirth_user')),
   $mirth_password = decrypt(hiera('mirth_password')),
+  $openmrs_db = hiera('openmrs_db'),
+  $openmrs_db_user = decrypt(hiera('openmrs_db_user')),
+  $openmrs_db_password = decrypt(hiera('openmrs_db_password')),
+  $pacs_mirebalais_ip_address = hiera('pacs_mirebalais_ip_address'),
+  $pacs_mirebalais_destination_port = hiera('pacs_mirebalais_destination_port'),
+  $pacs_boston_ip_address = hiera('pacs_boston_ip_address'),
+  $pacs_boston_destination_port = hiera('pacs_boston_destination_port')
 ) {
 
   exec { 'wait for mcservice':

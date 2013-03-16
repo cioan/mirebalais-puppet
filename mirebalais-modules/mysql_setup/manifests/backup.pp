@@ -1,6 +1,7 @@
 class mysql_setup::backup (
     $backup_user = decrypt(hiera('backup_db_user')),
     $backup_password = decrypt(hiera('backup_db_password')),
+    $tomcat = hiera('tomcat')
   ){
 
   database_user { "${backup_user}@localhost":
