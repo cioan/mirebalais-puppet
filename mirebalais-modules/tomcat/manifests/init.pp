@@ -25,7 +25,7 @@ class tomcat (
     cwd     => '/usr/local',
     command => "tar --group=${tomcat} --owner=${tomcat} -xzf /usr/local/tomcat-${version}.tgz",
     unless  => "test -d /usr/local/apache-tomcat-${version}",
-    require => [ Package['tar'], Wget::Fetch['download-tomcat'], User[$tomcat] ],
+    require => [ Wget::Fetch['download-tomcat'], User[$tomcat] ],
   }
 
   file { "/usr/local/apache-tomcat-${version}":
