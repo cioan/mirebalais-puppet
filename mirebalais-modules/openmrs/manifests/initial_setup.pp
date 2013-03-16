@@ -24,7 +24,6 @@ class openmrs::initial_setup(
   openmrs::liquibase_migrate { 'migrate update to latest':
     dataset     => 'liquibase-update-to-latest.xml',
     subscribe   => Openmrs::Liquibase_migrate['migrate core data'],
-    notify      => Service[$tomcat]
   }
 
   exec { 'tomcat-start':
