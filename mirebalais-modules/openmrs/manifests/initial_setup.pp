@@ -5,6 +5,11 @@ class openmrs::initial_setup(
   $tomcat = hiera('tomcat'),
 ) {
 
+  file { '/usr/local/liquibase.jar':
+    ensure => present,
+    source => 'puppet:///modules/openmrs/liquibase.jar'
+  }
+
   openmrs::liquibase_migrate { 'migrate base schema':
     dataset => 'liquibase-schema-only.xml',
     unless  => "mysql -u${openmrs_db_user} -p${openmrs_db_password} ${openmrs_db} -e 'desc patient'",
