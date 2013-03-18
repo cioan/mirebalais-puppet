@@ -20,31 +20,37 @@ class apache2 (
   file { '/etc/apache2/workers.properties':
     ensure  => present,
     content => template('apache2/workers.properties.erb'),
+    notify  => Service['apache2']
   }
 
   file { '/etc/apache2/mods-available/jk.conf':
     ensure => present,
-    source => 'puppet:///modules/apache2/jk.conf'
+    source => 'puppet:///modules/apache2/jk.conf',
+    notify => Service['apache2']
   }
 
   file { '/etc/apache2/sites-available/default-ssl':
     ensure => file,
-    source => 'puppet:///modules/apache2/sites-available/default-ssl'
+    source => 'puppet:///modules/apache2/sites-available/default-ssl',
+    notify => Service['apache2']
   }
 
   file { '/etc/apache2/sites-available/default':
     ensure => file,
-    source => 'puppet:///modules/apache2/sites-available/default'
+    source => 'puppet:///modules/apache2/sites-available/default',
+    notify => Service['apache2']
   }
 
   file { '/etc/ssl/certs/_.pih-emr.org.crt':
     ensure => present,
-    source => 'puppet:///modules/apache2/etc/ssl/certs/_.pih-emr.org.crt'
+    source => 'puppet:///modules/apache2/etc/ssl/certs/_.pih-emr.org.crt',
+    notify => Service['apache2']
   }
 
   file { '/etc/ssl/certs/gd_bundle.crt':
     ensure => present,
-    source => 'puppet:///modules/apache2/etc/ssl/certs/gd_bundle.crt'
+    source => 'puppet:///modules/apache2/etc/ssl/certs/gd_bundle.crt',
+    notify => Service['apache2']
   }
 
   exec { 'enable apache mods':
