@@ -62,8 +62,8 @@ class apache2 (
   }
 
   service { 'apache2':
-    ensure   => running,
-    enable   => true,
+    ensure   => $services_ensure,
+    enable   => $services_enable,
     require  => [ Package['apache2'], Package['libapache2-mod-jk'] ],
   }
 }
