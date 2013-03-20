@@ -51,6 +51,6 @@ class logging::kibana(
     cwd     => '/usr/local',
     command => 'tar -C kibana --strip-components=1 -xzf /usr/local/kibana_0.2.0.tgz',
     unless  => 'test -f /usr/local/kibana/kibana.rb',
-    require => [ Package['tar'], Wget::Fetch['download-kibana'], File['/usr/local/kibana'] ],
+    require => [ Wget::Fetch['download-kibana'], File['/usr/local/kibana'] ],
   }
 }
