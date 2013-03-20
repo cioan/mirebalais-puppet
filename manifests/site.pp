@@ -35,7 +35,7 @@ node 'emrreplicaiton.hum.ht' inherits default {
   include ntpdate
   include apache2
   include logging
-  include logging::hiera
+  include logging::kibana
   include mysql_setup::slave
 }
 
