@@ -31,7 +31,7 @@ node 'emr.hum.ht' inherits default {
   include openmrs::initial_setup
 }
 
-node 'emrreplicaiton.hum.ht' inherits default {
+node 'emrreplication.hum.ht' inherits default {
   include ntpdate
   include apache2
   include logging
@@ -41,4 +41,7 @@ node 'emrreplicaiton.hum.ht' inherits default {
 
 node 'emrtest.hum.ht' inherits default {
   include ntpdate
+  include mysql_setup::db_setup
+  include mirth::channel_setup
+  include openmrs::initial_setup
 }
