@@ -7,6 +7,8 @@ class openmrs (
     $remote_zlidentifier_url = hiera('remote_zlidentifier_url'),
     $remote_zlidentifier_username = decrypt(hiera('remote_zlidentifier_username')),
     $remote_zlidentifier_password = decrypt(hiera('remote_zlidentifier_password')),
+
+    $register_test_patient = hiera('register_test_patient')
   ){
 
   file { '/etc/apt/apt.conf.d/99auth':
@@ -41,6 +43,15 @@ class openmrs (
   file { "/home/${tomcat}/.OpenMRS/mirebalais.properties":
     ensure  => present,
     content => template('openmrs/mirebalais.properties.erb'),
+    owner   => $tomcat,
+    group   => $tomcat,
+    mode    => '0644',
+    require => File["/home/${tomcat}/.OpenMRS"]
+  }
+
+  file { "/home/${tomcat}/.OpenMRS/feature_toggles.properties":
+    ensure  => present,
+    content => template('openmrs/feature_toggles.properties.erb'),
     owner   => $tomcat,
     group   => $tomcat,
     mode    => '0644',

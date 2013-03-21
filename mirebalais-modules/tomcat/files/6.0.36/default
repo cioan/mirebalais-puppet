@@ -48,3 +48,4 @@ CATALINA_BASE="/usr/local/tomcat6"
 CATALINA_HOME="/usr/local/tomcat6"
 
 MIREBALAIS_CUSTOM_PROPERTIES_FILE="/home/tomcat6/.OpenMRS/mirebalais.properties"
+FEATURE_TOGGLE_PROPERTIES_FILE="/home/tomcat6/.OpenMRS/feature_toggles.properties"
