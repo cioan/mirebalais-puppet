@@ -1,9 +1,47 @@
-node default {
-  Exec { path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ] }
-  include mirebalais
+Exec { path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ] }
 
-  if $environment != 'test' {
-    include mirebalais_logging
+node default {
+  class { 'apt':
+    always_apt_update => true,
   }
 
+  include wget
+  include java
+  include mysql
+  include mysql_setup
+  include mirth
+  include tomcat
+  include openmrs
+}
+
+node /^((?!replication).*)$/ inherits default {
+  include mysql_setup::db_setup
+  include mirth::channel_setup
+  include openmrs::initial_setup
+}
+
+node 'emr.hum.ht' inherits default {
+  include ntpdate
+  include apache2
+  include logging
+  include mysql_setup::db_setup
+  include mysql_setup::backup
+  include mysql_setup::replication
+  include mirth::channel_setup
+  include openmrs::initial_setup
+}
+
+node 'emrreplication.hum.ht' inherits default {
+  include ntpdate
+  include apache2
+  include logging
+  include logging::kibana
+  include mysql_setup::slave
+}
+
+node 'emrtest.hum.ht' inherits default {
+  include ntpdate
+  include mysql_setup::db_setup
+  include mirth::channel_setup
+  include openmrs::initial_setup
 }

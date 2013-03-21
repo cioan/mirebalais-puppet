@@ -24,3 +24,6 @@ remote_zlidentifier_username: testidgen
 remote_zlidentifier_password: Testing123
 smtp_username: thoughtworkspih@gmail.com
 smtp_password: ENC[1M1OLSCVq1Dk7BXp9vFQFQ==]
+services_ensure: running
+services_enable: true
+register_test_patient: true
