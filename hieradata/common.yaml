@@ -16,7 +16,7 @@ mirth_db_password: foo
 mirth_user: mirth
 mirth_password: Mirth123
 pacs_mirebalais_ip_address: pacstest.pih.org
-pacs_mirebalais_destination_port: 6660
+pacs_mirebalais_destination_port: 6661
 pacs_boston_ip_address: pacstest.pih.org
 pacs_boston_destination_port: 6660
 remote_zlidentifier_url: 'http://bamboo.pih-emr.org:8080/mirebalais/module/idgen/exportIdentifiers.form?source=4&comment=MirebalaisDemo'
