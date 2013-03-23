@@ -12,3 +12,4 @@ pacs_boston_ip_address: pacsboston.pih-emr.org
 remote_zlidentifier_url: 'https://zanmi.pih-emr.org/openmrs/module/idgen/exportIdentifiers.form?source=1&comment=Mirebalais'
 remote_zlidentifier_username: mirebalais
 remote_zlidentifier_password: ENC[IuAJgqs6Ci5Hw5xs/DYiZg==]
+navigator_question_checkmarks: false
