@@ -1,0 +1,7 @@
+---
+mysql_root_password: ENC[oWqIfmn/ER4CYIvjJSpIzQ==]
+openmrs_db_password: ENC[UPXk0iMl0YPkptwRarJMGQ==]
+mirth_password: ENC[rtk/p1SzQjT3zkMJx7DJ0g==]
+
+register_test_patient: true
+navigator_question_checkmarks: true

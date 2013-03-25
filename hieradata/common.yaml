@@ -26,6 +26,10 @@ smtp_username: thoughtworkspih@gmail.com
 smtp_password: ENC[1M1OLSCVq1Dk7BXp9vFQFQ==]
 services_ensure: running
 services_enable: true
+
+junit_username: junit
+junit_password: Junit123
+
 register_test_patient: false
-navigator_question_checkmarks: true
+navigator_question_checkmarks: false
 

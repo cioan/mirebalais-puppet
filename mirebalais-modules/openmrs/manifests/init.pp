@@ -7,6 +7,8 @@ class openmrs (
     $remote_zlidentifier_url = hiera('remote_zlidentifier_url'),
     $remote_zlidentifier_username = decrypt(hiera('remote_zlidentifier_username')),
     $remote_zlidentifier_password = decrypt(hiera('remote_zlidentifier_password')),
+    $junit_username = hiera('junit_username'),
+    $junit_password = decrypt(hiera('junit_password')),
 
     $register_test_patient = hiera('register_test_patient')
   ){
