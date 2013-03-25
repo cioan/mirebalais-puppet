@@ -10,7 +10,8 @@ class openmrs (
     $junit_username = hiera('junit_username'),
     $junit_password = decrypt(hiera('junit_password')),
 
-    $register_test_patient = hiera('register_test_patient')
+    $register_test_patient = hiera('register_test_patient'),
+    $navigator_question_checkmarks = hiera('navigator_question_checkmarks')
   ){
 
   file { '/etc/apt/apt.conf.d/99auth':
