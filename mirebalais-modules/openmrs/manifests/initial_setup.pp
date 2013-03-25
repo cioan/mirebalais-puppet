@@ -12,7 +12,7 @@ class openmrs::initial_setup(
 
   openmrs::liquibase_migrate { 'migrate base schema':
     dataset => 'liquibase-schema-only.xml',
-    unless  => "mysql -u${openmrs_db_user} -p${openmrs_db_password} ${openmrs_db} -e 'desc patient'",
+    unless  => "mysql -u${openmrs_db_user} -p'${openmrs_db_password}' ${openmrs_db} -e 'desc patient'",
     require => [ Package['mirebalais'], Database[$openmrs_db] ],
     notify  => Openmrs::Liquibase_migrate['migrate core data']
   }
