@@ -5,3 +5,4 @@ mirth_password: ENC[rtk/p1SzQjT3zkMJx7DJ0g==]
 
 register_test_patient: true
 navigator_question_checkmarks: true
+my_account_feature: true
