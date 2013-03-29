@@ -1,3 +1,4 @@
 ---
 mirebalais_release: 'stable/'
 mysql_root_password: ENC[oWqIfmn/ER4CYIvjJSpIzQ==]
+navigator_question_checkmarks: true
