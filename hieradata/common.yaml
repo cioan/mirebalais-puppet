@@ -24,7 +24,7 @@ remote_zlidentifier_username: testidgen
 remote_zlidentifier_password: Testing123
 lacolline_server_url: 'http://boston.pih-emr.org:8080/openmrs'
 lacolline_username: wsuser
-lacolline_password: wsuser123
+lacolline_password: ENC[wfbeSpfk/4oUuvO+BR9mkA==]
 smtp_username: thoughtworkspih@gmail.com
 smtp_password: ENC[1M1OLSCVq1Dk7BXp9vFQFQ==]
 services_ensure: running
