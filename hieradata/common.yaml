@@ -22,9 +22,9 @@ pacs_boston_destination_port: 6660
 remote_zlidentifier_url: 'http://bamboo.pih-emr.org:8080/mirebalais/module/idgen/exportIdentifiers.form?source=4&comment=MirebalaisDemo'
 remote_zlidentifier_username: testidgen
 remote_zlidentifier_password: Testing123
-lacolline_server_url=http://boston.pih-emr.org:8080/openmrs
-lacolline_username=wsuser
-lacolline_password=wsuser123
+lacolline_server_url:'http://boston.pih-emr.org:8080/openmrs'
+lacolline_username:wsuser
+lacolline_password:wsuser123
 smtp_username: thoughtworkspih@gmail.com
 smtp_password: ENC[1M1OLSCVq1Dk7BXp9vFQFQ==]
 services_ensure: running
