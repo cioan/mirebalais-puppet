@@ -51,7 +51,7 @@ class tomcat (
 
   file { "/etc/default/${tomcat}":
     ensure  => file,
-    source  => "puppet:///modules/tomcat/${version}/default",
+    content => template('tomcat/${version}/default.erb')
   }
 
   file { "/etc/logrotate.d/${tomcat}":
