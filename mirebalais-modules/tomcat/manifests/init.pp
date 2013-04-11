@@ -1,6 +1,8 @@
 class tomcat (
     $tomcat = hiera('tomcat'),
     $services_enable = hiera('services_enable')
+    $java_memory_parameters = hiera('java_memory_parameters')
+    $java_profiler = hiera('java_profiler')
   ){
 
   case $tomcat {
