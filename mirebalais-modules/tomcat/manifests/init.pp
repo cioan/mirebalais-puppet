@@ -51,7 +51,7 @@ class tomcat (
 
   file { "/etc/default/${tomcat}":
     ensure  => file,
-    content => template('tomcat/${version}/default.erb')
+    content => template("tomcat/${version}/default.erb")
   }
 
   file { "/etc/logrotate.d/${tomcat}":
