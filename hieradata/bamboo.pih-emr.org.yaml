@@ -7,4 +7,4 @@ register_test_patient: true
 navigator_question_checkmarks: true
 my_account_feature: true
 
-java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=128m -XX:MaxPermSize=128m -XX:NewSize=128m'
+java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=110m -XX:MaxPermSize=110m -XX:NewSize=128m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+CMSPermGenSweepingEnabled'
