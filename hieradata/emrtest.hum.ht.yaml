@@ -2,3 +2,5 @@
 mirebalais_release: 'stable/'
 mysql_root_password: ENC[oWqIfmn/ER4CYIvjJSpIzQ==]
 navigator_question_checkmarks: true
+
+java_memory_parameters: '-Xmx4G -Xms1024m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:NewSize=128m'
