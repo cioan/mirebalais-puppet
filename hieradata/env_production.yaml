@@ -14,5 +14,3 @@ remote_zlidentifier_username: mirebalais
 remote_zlidentifier_password: ENC[IuAJgqs6Ci5Hw5xs/DYiZg==]
 
 navigator_question_checkmarks: true
-
-java_memory_parameters: '-Xmx4G -Xms1024m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC'
