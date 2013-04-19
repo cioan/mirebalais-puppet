@@ -7,3 +7,4 @@ register_test_patient: true
 navigator_question_checkmarks: true
 my_account_feature: true
 consult_note_confirm_diagnoses: true
+delete_encounter: true
