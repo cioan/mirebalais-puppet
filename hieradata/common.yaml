@@ -37,6 +37,7 @@ register_test_patient: false
 navigator_question_checkmarks: false
 my_account_feature: false
 consult_note_confirm_diagnoses: false
+delete_encounter: false
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:NewSize=128m'
 
