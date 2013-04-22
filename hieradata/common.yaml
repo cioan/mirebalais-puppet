@@ -34,7 +34,6 @@ junit_username: junit
 junit_password: Junit123
 
 register_test_patient: false
-navigator_question_checkmarks: false
 my_account_feature: false
 consult_note_confirm_diagnoses: false
 delete_encounter: false
