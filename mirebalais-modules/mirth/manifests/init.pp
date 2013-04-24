@@ -49,6 +49,11 @@ class mirth(
     require => Exec['mirth-unzip']
   }
 
+  file { '/etc/init/mcservice.conf':
+    ensure  => file,
+    source  => 'puppet:///modules/mirth/etc/init/mcservice.conf',
+  }
+
   if $services_enable {
     $require = [ File['/etc/init.d/mcservice'], File['/usr/local/mirthconnect/conf/mirth.properties'], File['/usr/local/mirthconnect/appdata'], Database[$mirth_db] ]
   } else {
@@ -56,8 +61,9 @@ class mirth(
   }
 
   service { 'mcservice':
-    ensure  => $services_ensure,
-    enable  => $services_enable,
-    require => $require
+    ensure   => $services_ensure,
+    enable   => $services_enable,
+    provider => upstart,
+    require  => $require
   }
 }
