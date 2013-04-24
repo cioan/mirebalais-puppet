@@ -58,6 +58,11 @@ class mirth(
     $require = [ File['/etc/init.d/mcservice'], File['/usr/local/mirthconnect/conf/mirth.properties'], File['/usr/local/mirthconnect/appdata'], Database[$mirth_db] ]
   } else {
     $require = []
+
+    file { '/etc/init/mcservice.override':
+      ensure  => file,
+      source  => 'puppet:///modules/mirth/etc/init/mcservice.override',
+    }
   }
 
   service { 'mcservice':
