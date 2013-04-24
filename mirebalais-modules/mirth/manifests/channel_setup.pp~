@@ -7,8 +7,8 @@ class mirth::channel_setup (
   $pacs_mirebalais_ip_address = hiera('pacs_mirebalais_ip_address'),
   $pacs_mirebalais_inbound_port = hiera('pacs_mirebalais_inbound_port'),
   $pacs_boston_ip_address = hiera('pacs_boston_ip_address'),
-  $pacs_boston_inbound_port = hiera('pacs_boston_inbound_port'),
-  $mirth_inbound_from_pacs_mirebalais_port = hiera('mirth_inbound_from_pacs_mirebalais_port'),
+  $pacs_boston_inbound_port = hiera('pacs_boston_inbound_port')
+  $mirth_inbound_from_pacs_mirebalais_port = hiera('mirth_inbound_from_pacs_mirebalais_port')
   $openmrs_mirebalais_inbound_port = hiera('openmrs_mirebalais_inbound_port')
 ) {
 
