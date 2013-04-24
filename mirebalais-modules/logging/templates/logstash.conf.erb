@@ -8,6 +8,14 @@ filter {
  }
 
  grep {
+  add_field => ["event_type", "ERROR"]
+  add_tag => ['error']
+  match => ["@message", "ERROR"]
+  drop => false
+  type => "mirth"
+ }
+
+ grep {
   add_field => ["event_type", "WARN"]
   add_tag => ['warning']
   match => ["@message", "WARN"]
@@ -37,6 +45,25 @@ filter {
   type => "tomcat"
   what => "previous"
  }
+
+ multiline {
+  pattern => "^\s+"
+  type => "mirth"
+  what => "previous"
+ }
+
+ multiline {
+  pattern => "^[^\s]+Exception"
+  type => "mirth"
+  what => "previous"
+ }
+
+ multiline {
+  pattern => "^Caused by"
+  type => "mirth"
+  what => "previous"
+ }
+
 }
 
 input {
@@ -64,13 +91,14 @@ input {
   path => ['/usr/local/tomcat6/logs/catalina.out']
   type => "tomcat"
  }
+
+ file {
+  path => ['/usr/local/mirthconnect/logs/mirth.log']
+  type => "mirth"
+ }
 }
 
 output {
- elasticsearch {
-  embedded => true
- }
-
  email {
   body => "%{@message}"
   match => ["error", "event_type,ERROR"]
@@ -78,5 +106,14 @@ output {
   subject => "Found ERROR on %{@source_host}"
   to => "mirebalais-error-log@pih.org"
   type => "tomcat"
+ }
+
+ email {
+  body => "%{@message}"
+  match => ["error", "event_type,ERROR"]
+  options => ["authenticationType", "plain", "userName", "<%= @smtp_username %>", "port", "587", "starttls", true, "password", "<%= @smtp_password %>", "smtpIporHost", "smtp.gmail.com"]
+  subject => "Found ERROR in mirth on %{@source_host}"
+  to => "mirebalais-error-log@pih.org"
+  type => "mirth"
  }
 }
