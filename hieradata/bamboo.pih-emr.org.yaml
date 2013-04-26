@@ -7,6 +7,7 @@ register_test_patient: true
 my_account_feature: true
 consult_note_confirm_diagnoses: true
 delete_encounter: true
+notifiable_diseases_report: true
 
 mirth_inbound_from_pacs_mirebalais_port: 6662
 
