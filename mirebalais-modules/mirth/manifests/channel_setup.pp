@@ -29,37 +29,37 @@ class mirth::channel_setup (
     cwd         => '/usr/local/mirthconnect',
     command     => "echo 'channel stop *' | /usr/local/mirthconnect/mccommand",
     require     => Exec['wait for mcservice'],
-    subscribe   => [ File['/usr/local/mirthconnect/readHL7FromOpenmrsDatabaseChannel.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsChannelMirebalais.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsChannelBoston.xml'], File['/usr/local/mirthconnect/receiveHL7FromPacsChannelMirebalais.xml'] ],
+    subscribe   => [ File['/usr/local/mirthconnect/readHL7FromOpenmrsDatabase.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsMirebalais.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsBoston.xml'], File['/usr/local/mirthconnect/receiveHL7FromPacsMirebalais.xml'] ],
     refreshonly => true
   }
 
-  file { '/usr/local/mirthconnect/readHL7FromOpenmrsDatabaseChannel.xml':
+  file { '/usr/local/mirthconnect/readHL7FromOpenmrsDatabase.xml':
     ensure  => present,
-    content => template('mirth/readHL7FromOpenmrsDatabaseChannel.xml.erb'),
+    content => template('mirth/readHL7FromOpenmrsDatabase.xml.erb'),
     require => File['/usr/local/mirthconnect']
   }
 
-  file { '/usr/local/mirthconnect/sendHL7ToPacsChannelMirebalais.xml':
+  file { '/usr/local/mirthconnect/sendHL7ToPacsMirebalais.xml':
     ensure  => present,
-    content => template('mirth/sendHL7ToPacsChannelMirebalais.xml.erb'),
+    content => template('mirth/sendHL7ToPacsMirebalais.xml.erb'),
     require => File['/usr/local/mirthconnect']
   }
 
-  file { '/usr/local/mirthconnect/sendHL7ToPacsChannelBoston.xml':
+  file { '/usr/local/mirthconnect/sendHL7ToPacsBoston.xml':
     ensure  => present,
-    content => template('mirth/sendHL7ToPacsChannelBoston.xml.erb'),
+    content => template('mirth/sendHL7ToPacsBoston.xml.erb'),
     require => File['/usr/local/mirthconnect']
   }
 
-  file { '/usr/local/mirthconnect/receiveHL7FromPacsChannelMirebalais.xml':
+  file { '/usr/local/mirthconnect/receiveHL7FromPacsMirebalais.xml':
     ensure => present,
-    content => template('mirth/receiveHL7FromPacsChannelMirebalais.xml.erb'),
+    content => template('mirth/receiveHL7FromPacsMirebalais.xml.erb'),
     require => File['/usr/local/mirthconnect']
   }
 
   exec { 'import read channel':
     cwd         => '/usr/local/mirthconnect',
-    command     => "echo 'import /usr/local/mirthconnect/readHL7FromOpenmrsDatabaseChannel.xml force' | /usr/local/mirthconnect/mccommand",
+    command     => "echo 'import /usr/local/mirthconnect/readHL7FromOpenmrsDatabase.xml force' | /usr/local/mirthconnect/mccommand",
     subscribe   => Exec['stop all channels'],
     refreshonly => true
   }
@@ -73,7 +73,7 @@ class mirth::channel_setup (
 
   exec { 'import write channel 1':
     cwd         => '/usr/local/mirthconnect',
-    command     => "echo 'import /usr/local/mirthconnect/sendHL7ToPacsChannelMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
+    command     => "echo 'import /usr/local/mirthconnect/sendHL7ToPacsMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
     subscribe   => Exec['stop all channels'],
     refreshonly => true
   }
@@ -87,7 +87,7 @@ class mirth::channel_setup (
 
   exec { 'import write channel 2':
     cwd         => '/usr/local/mirthconnect',
-    command     => "echo 'import /usr/local/mirthconnect/sendHL7ToPacsChannelBoston.xml force' | /usr/local/mirthconnect/mccommand",
+    command     => "echo 'import /usr/local/mirthconnect/sendHL7ToPacsBoston.xml force' | /usr/local/mirthconnect/mccommand",
     subscribe   => Exec['stop all channels'],
     refreshonly => true
   }
@@ -101,7 +101,7 @@ class mirth::channel_setup (
 
   exec { 'import receive channel 1':
     cwd         => '/usr/local/mirthconnect',
-    command     => "echo 'import /usr/local/mirthconnect/receiveHL7FromPacsChannelMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
+    command     => "echo 'import /usr/local/mirthconnect/receiveHL7FromPacsMirebalais.xml force' | /usr/local/mirthconnect/mccommand",
     subscribe   => Exec['stop all channels'],
     refreshonly => true
   }
