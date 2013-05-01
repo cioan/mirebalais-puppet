@@ -3,6 +3,7 @@ mysql_root_password: ENC[oWqIfmn/ER4CYIvjJSpIzQ==]
 openmrs_db_password: ENC[3RqMvut63WqWc8IDs/GOnQ==]
 mirth_password: ENC[rtk/p1SzQjT3zkMJx7DJ0g==]
 
+# feature toggle settings
 register_test_patient: true
 my_account_feature: true
 consult_note_confirm_diagnoses: true
