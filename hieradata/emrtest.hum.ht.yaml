@@ -3,7 +3,5 @@ mirebalais_release: 'stable/'
 mysql_root_password: ENC[oWqIfmn/ER4CYIvjJSpIzQ==]
 
 # feature toggle settings
-consult_note_confirm_diagnoses: true
-delete_encounter: true
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC'
