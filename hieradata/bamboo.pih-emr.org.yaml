@@ -11,6 +11,7 @@ lacolline_password: wsuser123
 register_test_patient: true
 my_account_feature: true
 notifiable_diseases_report: true
+import_mpi_patients: true
 
 mirth_inbound_from_pacs_mirebalais_port: 6662
 
