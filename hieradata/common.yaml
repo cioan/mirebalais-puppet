@@ -19,7 +19,7 @@ mirth_password: Mirth123
 pacs_mirebalais_ip_address: pacstest.pih.org
 pacs_mirebalais_inbound_port: 6661
 pacs_boston_ip_address: pacstest.pih.org
-pacs_boston_inbound_port: 6660
+pacs_boston_inbound_port: 9999
 mirth_inbound_from_pacs_mirebalais_port: 9999
 
 openmrs_mirebalais_inbound_port: 6663 
