@@ -43,6 +43,7 @@ delete_encounter: true
 notifiable_diseases_report: false
 import_mpi_patients: false
 radiology_tab: false
+emergency_checkin: false
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:NewSize=128m'
 
