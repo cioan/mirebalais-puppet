@@ -14,7 +14,7 @@ notifiable_diseases_report: true
 import_mpi_patients: true
 radiology_tab: true
 emergency_checkin: true
-surgical_operative_note: false
+surgical_operative_note: true
 
 mirth_inbound_from_pacs_mirebalais_port: 6662
 
