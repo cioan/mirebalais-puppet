@@ -39,6 +39,7 @@ junit_password: Junit123
 register_test_patient: false
 my_account_feature: false
 consult_note_confirm_diagnoses: true
+consult_note_dispositions: false
 delete_encounter: true
 notifiable_diseases_report: false
 import_mpi_patients: false
