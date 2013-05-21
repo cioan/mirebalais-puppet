@@ -107,13 +107,4 @@ output {
   to => "mirebalais-error-log@pih.org"
   type => "tomcat"
  }
-
- email {
-  body => "%{@message}"
-  match => ["error", "event_type,ERROR"]
-  options => ["authenticationType", "plain", "userName", "<%= @smtp_username %>", "port", "587", "starttls", true, "password", "<%= @smtp_password %>", "smtpIporHost", "smtp.gmail.com"]
-  subject => "Found ERROR in mirth on %{@source_host}"
-  to => "mirebalais-error-log@pih.org"
-  type => "mirth"
- }
 }
