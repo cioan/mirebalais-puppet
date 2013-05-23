@@ -7,6 +7,8 @@ lacolline_server_url: 'http://boston.pih-emr.org:8080/openmrs'
 lacolline_username: wsuser
 lacolline_password: wsuser123
 
+mirth_inbound_from_pacs_mirebalais_port: 6662
+
 # feature toggle settings
 register_test_patient: true
 my_account_feature: true
@@ -17,5 +19,5 @@ emergency_checkin: true
 surgical_operative_note: true
 consult_note_dispositions: true
 
-mirth_inbound_from_pacs_mirebalais_port: 6662
+
 
