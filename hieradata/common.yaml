@@ -40,13 +40,14 @@ junit_password: Junit123
 register_test_patient: false
 my_account_feature: false
 consult_note_confirm_diagnoses: true
-consult_note_dispositions: false
+consult_note_dispositions: true
 delete_encounter: true
 notifiable_diseases_report: false
 import_mpi_patients: false
 radiology_tab: false
 emergency_checkin: true
 surgical_operative_note: true
+inpatients_list: false
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:NewSize=128m'
 

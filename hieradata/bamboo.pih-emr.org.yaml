@@ -17,7 +17,7 @@ import_mpi_patients: true
 radiology_tab: true
 emergency_checkin: true
 surgical_operative_note: true
-consult_note_dispositions: true
+inpatients_list: true
 
 
 
