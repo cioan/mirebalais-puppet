@@ -28,9 +28,9 @@
 
   SSLEngine on
   SSLOptions +StrictRequire
-  SSLCertificateFile /etc/ssl/certs/_.pih-emr.org.crt
-  SSLCertificateChainFile /etc/ssl/certs/gd_bundle.crt
-  SSLCertificateKeyFile /etc/ssl/private/pih-emr.org.key
+  SSLCertificateFile /etc/ssl/certs/hum.ht.crt
+  SSLCertificateChainFile /etc/ssl/certs/gd_bundle-g2.crt
+  SSLCertificateKeyFile /etc/ssl/private/hum.key
 
 	BrowserMatch "MSIE [2-6]" \
 		nokeepalive ssl-unclean-shutdown \

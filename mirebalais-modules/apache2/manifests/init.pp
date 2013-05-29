@@ -41,15 +41,15 @@ class apache2 (
     notify => Service['apache2']
   }
 
-  file { '/etc/ssl/certs/_.pih-emr.org.crt':
+  file { '/etc/ssl/certs/hum.ht.crt':
     ensure => present,
-    source => 'puppet:///modules/apache2/etc/ssl/certs/_.pih-emr.org.crt',
+    source => 'puppet:///modules/apache2/etc/ssl/certs/hum.ht.crt',
     notify => Service['apache2']
   }
 
-  file { '/etc/ssl/certs/gd_bundle.crt':
+  file { '/etc/ssl/certs/gd_bundle-g2.crt':
     ensure => present,
-    source => 'puppet:///modules/apache2/etc/ssl/certs/gd_bundle.crt',
+    source => 'puppet:///modules/apache2/etc/ssl/certs/gd_bundle-g2.crt',
     notify => Service['apache2']
   }
 
