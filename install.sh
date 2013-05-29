@@ -10,7 +10,7 @@ fi
 
 if [ "$1" != "test" ]
 then
-  if [ ! -f /etc/encryptor_secret_key ]
+  if [ ! -f /etc/encryptor_secret_key ] || [ ! -f /etc/ssl/private/hum.key ]
   then
     echo "Please provide a username to fetch private data"
     read user
@@ -18,7 +18,7 @@ then
     scp $user@dev.pih-emr.org:/etc/mirebalais/* .
 
     mv encryptor_secret_key /etc/
-    mv pih-emr.org.key /etc/ssl/private/
+    mv hum.key /etc/ssl/private/
   fi
 
   if [ ! -f ~/.ssh/id_dsa ]
