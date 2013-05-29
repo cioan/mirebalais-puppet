@@ -18,6 +18,5 @@ radiology_tab: true
 emergency_checkin: true
 surgical_operative_note: true
 inpatients_list: true
-
-
+no_active_visit_view: true
 
