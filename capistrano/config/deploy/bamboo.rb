@@ -1,3 +1,3 @@
 set :user, 'root'
 
-server 'bamboo.pih-emr.org', :all
+server 'bamboo.pih-emr.org', :test
