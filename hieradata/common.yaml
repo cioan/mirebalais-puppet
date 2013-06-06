@@ -51,5 +51,5 @@ inpatients_list: false
 no_active_visit_view: false
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:NewSize=128m'
-
+java_debug_parameters: ''
 java_profiler: ''
