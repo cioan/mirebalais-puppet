@@ -16,8 +16,5 @@ notifiable_diseases_report: true
 import_mpi_patients: true
 radiology_tab: true
 emergency_checkin: true
-surgical_operative_note: true
-inpatients_list: true
-no_active_visit_view: true
 
 java_debug_parameters: '-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5000'

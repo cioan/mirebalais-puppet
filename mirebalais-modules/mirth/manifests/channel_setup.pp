@@ -9,6 +9,7 @@ class mirth::channel_setup (
   $pacs_boston_ip_address = hiera('pacs_boston_ip_address'),
   $pacs_boston_inbound_port = hiera('pacs_boston_inbound_port'),
   $mirth_inbound_from_pacs_mirebalais_port = hiera('mirth_inbound_from_pacs_mirebalais_port'),
+  $mirth_inbound_from_pacs_boston_port = hiera('mirth_inbound_from_pacs_boston_port'),
   $openmrs_mirebalais_inbound_port = hiera('openmrs_mirebalais_inbound_port')
 ) {
 
@@ -29,7 +30,7 @@ class mirth::channel_setup (
     cwd         => '/usr/local/mirthconnect',
     command     => "echo 'channel stop *' | /usr/local/mirthconnect/mccommand",
     require     => Exec['wait for mcservice'],
-    subscribe   => [ File['/usr/local/mirthconnect/readHL7FromOpenmrsDatabase.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsMirebalais.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsBoston.xml'], File['/usr/local/mirthconnect/receiveHL7FromPacsMirebalais.xml'] ],
+    subscribe   => [ File['/usr/local/mirthconnect/readHL7FromOpenmrsDatabase.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsMirebalais.xml'], File['/usr/local/mirthconnect/sendHL7ToPacsBoston.xml'], File['/usr/local/mirthconnect/receiveHL7FromPacsMirebalais.xml'], File['/usr/local/mirthconnect/receiveHL7FromPacsBoston.xml'] ],
     refreshonly => true
   }
 
@@ -54,6 +55,12 @@ class mirth::channel_setup (
   file { '/usr/local/mirthconnect/receiveHL7FromPacsMirebalais.xml':
     ensure => present,
     content => template('mirth/receiveHL7FromPacsMirebalais.xml.erb'),
+    require => File['/usr/local/mirthconnect']
+  }
+
+  file { '/usr/local/mirthconnect/receiveHL7FromPacsBoston.xml':
+    ensure => present,
+    content => template('mirth/receiveHL7FromPacsBoston.xml.erb'),
     require => File['/usr/local/mirthconnect']
   }
 
@@ -113,10 +120,25 @@ class mirth::channel_setup (
     refreshonly => true
   }
 
+  exec { 'import receive channel 2':
+    cwd         => '/usr/local/mirthconnect',
+    command     => "echo 'import /usr/local/mirthconnect/receiveHL7FromPacsBoston.xml force' | /usr/local/mirthconnect/mccommand",
+    subscribe   => Exec['stop all channels'],
+    refreshonly => true
+  }
+
+  exec { 'deploy receive channel 2':
+    cwd         => '/usr/local/mirthconnect',
+    command     => "echo 'channel deploy \"Receive HL7 from PACS Boston\"' | /usr/local/mirthconnect/mccommand",
+    subscribe   => Exec['import receive channel 2'],
+    refreshonly => true
+  }
+
+
   exec { 'start all channels':
     cwd         => '/usr/local/mirthconnect',
     command     => "echo 'channel start *' | /usr/local/mirthconnect/mccommand",
-    subscribe   => [ Exec['deploy read channel'], Exec['deploy write channel 1'], Exec['deploy write channel 2'], Exec['deploy receive channel 1'] ],
+    subscribe   => [ Exec['deploy read channel'], Exec['deploy write channel 1'], Exec['deploy write channel 2'], Exec['deploy receive channel 1'], Exec['deploy receive channel 2'] ],
     refreshonly => true
   }
 }

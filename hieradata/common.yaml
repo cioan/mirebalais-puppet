@@ -22,6 +22,7 @@ pacs_mirebalais_inbound_port: 6661
 pacs_boston_ip_address: pacstest.pih.org
 pacs_boston_inbound_port: 9999
 mirth_inbound_from_pacs_mirebalais_port: 9999
+mirth_inbound_from_pacs_boston_port: 9999
 openmrs_mirebalais_inbound_port: 6663 
 
 remote_zlidentifier_url: 'http://bamboo.pih-emr.org:8080/mirebalais/module/idgen/exportIdentifiers.form?source=4&comment=MirebalaisDemo'
@@ -47,8 +48,8 @@ import_mpi_patients: false
 radiology_tab: false
 emergency_checkin: true
 surgical_operative_note: true
-inpatients_list: false
-no_active_visit_view: false
+inpatients_list: true
+no_active_visit_view: true
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:NewSize=128m'
 java_debug_parameters: ''
