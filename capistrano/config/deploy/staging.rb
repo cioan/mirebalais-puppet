@@ -1,3 +1,3 @@
-set :user, 'root'
+set :user, 'mirebalais'
 
 server 'humdemo.pih-emr.org', :test
