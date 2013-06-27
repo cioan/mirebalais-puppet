@@ -7,6 +7,8 @@ USER='<%= @backup_user %>'
 PASS='<%= @backup_password %>'
 DIR=/home/<%= @tomcat %>/backups
 
+REMOTE_DB='<%= @remote_db_user %>@<%= @remote_db_server %>:<%= @remote_backup_dir %>'
+
 if [ -n "$1" ]
 then
   MODIFIER=release_$1
@@ -27,5 +29,6 @@ mysqldump -u${USER} -p${PASS} --opt --flush-logs --single-transaction openmrs | 
 rm -f ${DIR}/current/mirebalais_current_backup.sql.bz2
 ln -s ${DIR}/sequences/${FILENAME} ${DIR}/current/mirebalais_current_backup.sql.bz2
 
-scp ${DIR}/current/mirebalais_current_backup.sql.bz2 backup@dev.pih-emr.org:hum/db/${FILENAME}
+#scp ${DIR}/current/mirebalais_current_backup.sql.bz2 backup@dev.pih-emr.org:hum/db/${FILENAME}
+scp ${DIR}/current/mirebalais_current_backup.sql.bz2 ${REMOTE_DB}/${FILENAME}
 
