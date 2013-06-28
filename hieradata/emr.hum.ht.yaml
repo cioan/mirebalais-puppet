@@ -1,4 +1,4 @@
 remote_db_user: backups
 remote_db_server: amigo.pih-emr.org
-remote_backups_dir: haiti/mirebalais/db
+remote_backup_dir: haiti/mirebalais/db
 
