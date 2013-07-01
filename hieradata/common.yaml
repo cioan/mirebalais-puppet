@@ -47,6 +47,7 @@ notifiable_diseases_report: false
 import_mpi_patients: false
 radiology_tab: false
 emergency_checkin: true
+live_checkin: false
 surgical_operative_note: true
 inpatients_list: true
 no_active_visit_view: true
