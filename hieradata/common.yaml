@@ -38,23 +38,23 @@ junit_username: junit
 junit_password: Junit123
 
 # feature toggle settings
-register_test_patient: false
-my_account_feature: false
 consult_note_confirm_diagnoses: true
 consult_note_dispositions: true
 delete_encounter: true
-notifiable_diseases_report: false
-import_mpi_patients: false
-radiology_tab: false
 emergency_checkin: true
-live_checkin: false
 surgical_operative_note: true
 inpatients_list: true
 no_active_visit_view: true
+
+register_test_patient: false
+my_account_feature: false
+notifiable_diseases_report: false
+import_mpi_patients: false
 edit_visit_dates: false
+live_checkin: false
+
 hide_edit_patient_demographics_button: true
 hide_edit_patient_contact_info_button: true
-
 
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:NewSize=128m'

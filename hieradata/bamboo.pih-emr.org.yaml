@@ -14,8 +14,6 @@ register_test_patient: true
 my_account_feature: true
 notifiable_diseases_report: true
 import_mpi_patients: true
-radiology_tab: true
-emergency_checkin: true
 live_checkin: true
 edit_visit_dates: true
 
