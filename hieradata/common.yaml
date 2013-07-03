@@ -45,13 +45,13 @@ emergency_checkin: true
 surgical_operative_note: true
 inpatients_list: true
 no_active_visit_view: true
+edit_visit_dates: true
+live_checkin: true
 
 register_test_patient: false
 my_account_feature: false
 notifiable_diseases_report: false
 import_mpi_patients: false
-edit_visit_dates: false
-live_checkin: false
 
 hide_edit_patient_demographics_button: true
 hide_edit_patient_contact_info_button: true
