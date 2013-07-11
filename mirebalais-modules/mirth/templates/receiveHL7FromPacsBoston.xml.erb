@@ -178,7 +178,31 @@
         </outboundProperties>
       </transformer>
       <filter>
-        <rules/>
+        <rules>
+          <rule>
+            <sequenceNumber>0</sequenceNumber>
+            <name>Only send ORU messages (reports) on to PACS Mirebalais</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>if (msg[&apos;MSH&apos;][&apos;MSH.9&apos;][&apos;MSH.9.1&apos;].toString() == &quot;ORU&quot;) {
+	return true;
+}
+else {
+	return false;
+}</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>if (msg[&apos;MSH&apos;][&apos;MSH.9&apos;][&apos;MSH.9.1&apos;].toString() == &quot;ORU&quot;) {
+	return true;
+}
+else {
+	return false;
+}</script>
+            <operator>NONE</operator>
+          </rule>
+        </rules>
       </filter>
       <transportName>LLP Sender</transportName>
       <mode>DESTINATION</mode>
