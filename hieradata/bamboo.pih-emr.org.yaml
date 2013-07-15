@@ -14,5 +14,6 @@ register_test_patient: true
 my_account_feature: true
 notifiable_diseases_report: true
 import_mpi_patients: true
+edit_admission_note: true
 
 java_debug_parameters: '-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5000'
