@@ -9,18 +9,22 @@ node default {
   include java
   include mysql
   include mysql_setup
-  include mirth
   include tomcat
   include openmrs
 }
 
-node /^((?!replication).*)$/ inherits default {
+node mirebalais inherits default {
+  include mirth
+  include openmrs::mirebalais
+}
+
+node /^((?!replication).*)$/ inherits mirebalais {
   include mysql_setup::db_setup
   include mirth::channel_setup
   include openmrs::initial_setup
 }
 
-node 'emr.hum.ht' inherits default {
+node 'emr.hum.ht' inherits mirebalais {
   include ntpdate
   include apache2
   include logging
@@ -31,7 +35,7 @@ node 'emr.hum.ht' inherits default {
   include openmrs::initial_setup
 }
 
-node 'emrreplication.hum.ht' inherits default {
+node 'emrreplication.hum.ht' inherits mirebalais {
   include ntpdate
   include apache2
   include logging
@@ -39,9 +43,13 @@ node 'emrreplication.hum.ht' inherits default {
   include mysql_setup::slave
 }
 
-node 'emrtest.hum.ht' inherits default {
+node 'emrtest.hum.ht' inherits mirebalais {
   include ntpdate
   include mysql_setup::db_setup
   include mirth::channel_setup
   include openmrs::initial_setup
+}
+
+node 'rwandatest.pih-emr.org' inherits default {
+  include openmrs::rwanda
 }

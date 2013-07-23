@@ -1,4 +1,5 @@
 ---
+project: mirebalais
 mirebalais_release: 'unstable/'
 mysql_server_id: 1
 mysql_root_password: foo
