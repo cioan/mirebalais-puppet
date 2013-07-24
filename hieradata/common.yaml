@@ -47,11 +47,11 @@ inpatients_list: true
 no_active_visit_view: true
 edit_visit_dates: true
 live_checkin: true
+import_mpi_patients: true
 
 register_test_patient: false
 my_account_feature: false
 notifiable_diseases_report: false
-import_mpi_patients: false
 edit_admission_note: false
 
 hide_edit_patient_demographics_button: true
