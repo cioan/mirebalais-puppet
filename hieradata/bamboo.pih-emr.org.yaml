@@ -13,6 +13,5 @@ mirth_inbound_from_pacs_mirebalais_port: 6662
 register_test_patient: true
 my_account_feature: true
 notifiable_diseases_report: true
-edit_admission_note: true
 
 java_debug_parameters: '-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5000'
