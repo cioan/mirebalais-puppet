@@ -40,7 +40,6 @@ junit_password: Junit123
 # feature toggle settings
 consult_note_confirm_diagnoses: true
 consult_note_dispositions: true
-delete_encounter: true
 emergency_checkin: true
 surgical_operative_note: true
 inpatients_list: true
