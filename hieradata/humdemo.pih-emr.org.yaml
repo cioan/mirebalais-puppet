@@ -8,5 +8,8 @@ lacolline_password: ENC[OV3IH5U9urv6gEb76vnyYA==]
 register_test_patient: true
 my_account_feature: true
 notifiable_diseases_report: true
+order_radiology_retrospective: true
+edit_consult_notes: true
+edit_transfer_and_discharge_notes: true
 
 

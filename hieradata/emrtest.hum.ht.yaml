@@ -7,5 +7,8 @@ lacolline_username: wsuser
 lacolline_password: ENC[OV3IH5U9urv6gEb76vnyYA==]
 
 # feature toggle settings
+order_radiology_retrospective: true
+edit_consult_notes: true
+edit_transfer_and_discharge_notes: true
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC'

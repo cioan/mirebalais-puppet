@@ -15,5 +15,6 @@ my_account_feature: true
 notifiable_diseases_report: true
 order_radiology_retrospective: true
 edit_consult_notes: true
+edit_transfer_and_discharge_notes: true
 
 java_debug_parameters: '-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5000'
