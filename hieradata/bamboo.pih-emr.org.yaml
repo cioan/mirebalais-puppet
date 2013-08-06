@@ -16,6 +16,6 @@ notifiable_diseases_report: true
 order_radiology_retrospective: true
 edit_consult_notes: true
 edit_transfer_and_discharge_notes: true
-enter_retrospective_consult_note_in_active_visit: true
+enter_retrospective_consult_note_in_active_visit: false
 
 java_debug_parameters: '-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5000'
