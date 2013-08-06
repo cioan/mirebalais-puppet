@@ -54,7 +54,7 @@ notifiable_diseases_report: false
 order_radiology_retrospective: false
 edit_consult_notes: false
 edit_transfer_and_discharge_notes: false
-enter_retrospective_consult_note_in_active_visit: false
+enter_retrospective_consult_note_in_active_visit: true
 
 hide_edit_patient_demographics_button: true
 hide_edit_patient_contact_info_button: true
