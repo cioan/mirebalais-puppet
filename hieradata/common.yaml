@@ -55,6 +55,7 @@ enter_retrospective_consult_note_in_active_visit: true
 register_test_patient: false
 my_account_feature: false
 notifiable_diseases_report: false
+enable_new_patient_header: false
 
 hide_edit_patient_demographics_button: true
 hide_edit_patient_contact_info_button: true
