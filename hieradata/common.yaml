@@ -60,6 +60,7 @@ enable_new_patient_header: false
 hide_edit_patient_demographics_button: true
 hide_edit_patient_contact_info_button: true
 
+dispense_medicine: false
 
 java_memory_parameters: '-Xmx512m -Xms512m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:NewSize=128m'
 java_debug_parameters: ''
